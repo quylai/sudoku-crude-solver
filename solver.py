@@ -1,23 +1,25 @@
 
 
+# initial sudoku format is one, row from top-bottom, connected tail-to-head
+# .
 # modify string using ascii codes to replace 46 (.) with 48 (0), then typecast it into a list of characters
 inputs = list("......43...52..8.7.8.7......3..48.5..4.6....2.9..52.4..6.4.......19..6.3......57.".translate({46: 48}))
 
 # convert elements of var "inputs" into List of in
 inputs = [eval(i) for i in inputs]
 
-# Blocks notation: topLeft (tl), middleLeft (ml),
-# bottomLeft (bl), bottomCenter (bc), and bottomRight (br)
+# Rows notation: topTop (tt), topCenter (tc),
+# topBottom (tb), middleBottom (mb), and bottomBottom (bb)
 grid = {
-  "tl": [0,0,0,0,0,0,0,0,0],
-  "tc": [1,1,1,1,1,1,1,1,1],
-  "tr": [0,0,0,0,0,0,0,0,0],
-  "ml": [0,0,0,0,0,0,0,0,0],
+  "tt": [0,0,0,0,0,0,0,0,0],
+  "tc": [0,0,0,0,0,0,0,0,0],
+  "tb": [0,0,0,0,0,0,0,0,0],
+  "mt": [0,0,0,0,0,0,0,0,0],
   "mc": [0,0,0,0,0,0,0,0,0],
-  "mr": [0,0,0,0,0,0,0,0,0],
-  "bl": [0,0,0,0,0,0,0,0,0],
-  "bc": [9,8,7,6,5,4,3,2,1],
-  "br": [1,2,3,4,5,6,7,8,9]
+  "mb": [0,0,0,0,0,0,0,0,0],
+  "bt": [0,0,0,0,0,0,0,0,0],
+  "bc": [0,0,0,0,0,0,0,0,0],
+  "bb": [0,0,0,0,0,0,0,0,0]
 }
 
 # updating initial sudoku state onto grid
