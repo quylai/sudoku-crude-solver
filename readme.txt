@@ -14,6 +14,8 @@
 Obtaining sudoku from
 .
 https://qqwing.com/generate.html
+sample of sudoku outputted format
+......43...52..8.7.8.7......3..48.5..4.6....2.9..52.4..6.4.......19..6.3......57. 
 
 
 ----------------------------------------
@@ -64,7 +66,7 @@ checking if number exist on row/column of current element
 
 
 ----------------------------------------
-# exist in 2/3 box
+same # exist in 2/3 box
 .
 get tl to intersect with tm;
 save the index of intersection;
