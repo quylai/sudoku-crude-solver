@@ -21,6 +21,7 @@ sample of sudoku outputted format
 ----------------------------------------
 Labeling
 
+  a b c d e f g h i
  -------------------
 1|     |     |     |
 2|     |     |     |
@@ -35,11 +36,14 @@ Labeling
 9|     |     |     |
  -------------------
 
-1 - topTop		tt
-2 - topCenter		tc
-3 - topBottom		tb
-6 - middleBottom	mb
-9 - bottomBottom	bb
+------------------
+Rows
+
+a1 to i1   :	rowTopTop		rtt
+a2 to i2   :	rowTopCenter		rtc
+a3 to i3   :	rowTopBottom		rtb
+a6 to i6   :	rowMiddleBottom		rmb
+a9 to i9   :	rowBottomBottom		rbb
 
 
 ----------------------------------------------------------------------------------------
