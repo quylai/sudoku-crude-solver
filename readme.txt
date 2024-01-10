@@ -38,6 +38,15 @@ Labeling
 
 
 ------------------
+Cells
+any single space in sudoku grid
+
+------------------
+Row Block
+part of a row that is segmented by the block
+e.g. [a1 to c1] or [d5 to f5] ...
+
+------------------
 Rows
 
 a1 to i1   :	rowTopTop		rtt
@@ -47,27 +56,52 @@ a6 to i6   :	rowMiddleBottom		rmb
 a9 to i9   :	rowBottomBottom		rbb
 
 
+
+
 ----------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------
 Methodologies
 
 
 ----------------------------------------
-current box
-.
-checking if number exist at current box
+Rows comparison
+
+------------------
+Top segment
+
+- compare row1 and row2 for intersection values
+
+- of those intersected values, choose one (inter_val)
+  locate the column block in which inter_val is absent on row3
+
+- on row3, determine which of it row block absent of inter_val
+  - if only 1 cell of row block vaccant, then
+    cell = inter_val
+  - else, inclusive
+
+- evaluate next inter_val
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ----------------------------------------
 crosshair
 .
 checking if number exist on row/column of current element
-
-
-
-
-
-
 
 
 ----------------------------------------
