@@ -7,17 +7,19 @@ inputs = list("......43...52..8.7.8.7......3..48.5..4.6....2.9..52.4..6.4.......
 
 # for visual
 #
-# ......43.
-# ..52..8.7
-# .8.7.....
-
-# .3..48.5.
-# .4.6....2
-# .9..52.4.
-
-# .6.4.....
-# ..19..6.3
-# ......57.
+# -------------------
+# |     |     |4 3  |
+# |    5|2    |8   7|
+# |  8  |7    |     |
+# -------------------
+# |  3  |  4 8|  5  |
+# |  4  |6    |    2|
+# |  9  |  5 2|  4  |
+# -------------------
+# |  6  |4    |     |
+# |    1|9    |6   3|
+# |     |     |5 7  |
+# -------------------
 
 #   a b c d e f g h i
 #  -------------------
@@ -45,7 +47,7 @@ def prtSudoku(grid):
 
   for idx, x in np.ndenumerate(oneline_sudoku):
 
-    if idx[0] == 0:
+    if idx[0] == 0 or idx[0] == 27 or idx[0] == 54:
       print("-------------------")
     
     if idx[0] % 9 == 0:
@@ -57,32 +59,17 @@ def prtSudoku(grid):
     else:                                                   
       print(x, end='')                                          # for 'x'
 
-    if idx[0] < 27:
-      if (idx[0] + 1) % 9 == 0:                                 # for "|e"
-        print('|')
-      elif (idx[0] - 2) % 3 == 0 and (idx[0] + 1) % 9 != 0:     # for '|'
-        print('|', end='')
-      elif (idx[0] % 3 == 0 or idx[0] % 3 == 1):                # for 's'
-        print(' ', end='')
+    # fork for:
+    # row ending bar or between cells bar or space between cells
+    if (idx[0] + 1) % 9 == 0:                                   # for "|e"
+      print('|')
+    elif (idx[0] - 2) % 3 == 0 and (idx[0] + 1) % 9 != 0:       # for '|'
+      print('|', end='')
+    elif (idx[0] % 3 == 0 or idx[0] % 3 == 1):                  # for 's'
+      print(' ', end='')
 
- 
-
-
-
-  # print("-------------------")
-  # print("|     |     |     |")
-  # print("|     |     |     |")
-  # print("|     |     |     |")
-  # print("-------------------")
-  # print("|     |     |     |")
-  # print("|     |     |     |")
-  # print("|     |     |     |")
-  # print("-------------------")
-  # print("|     |     |     |")
-  # print("|     |     |     |")
-  # print("|     |     |     |")
-  # print("-------------------")
-
+    if (idx[0] == 80):
+      print("-------------------")
 
 
 prtSudoku(grid)

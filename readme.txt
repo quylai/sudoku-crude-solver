@@ -203,6 +203,7 @@ Above are hardcode of function "prtSudoku" from indices 0 to 26.  Annotation are
 {b|}	row beginning bar
 {x}	cell value
 {|e}	row ending bar
+{|}	between cells bar
 {s}	space between cells
 
 
