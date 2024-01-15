@@ -207,6 +207,11 @@ Above are hardcode of function "prtSudoku" from indices 0 to 26.  Annotation are
 {s}	space between cells
 
 
+#-----------------
+About function prtSudoku
+.
+Argument of grid is reduce to 1D array {oneline_sudoku}.  It is iterated thru for-loop to make necessary arrangement for outputting onto command line.  Method "ndenumerate" allow access to array indices {idx} and its corresponding values {x}.  {idx} is given in tuple of one item, of type "int".
+
 ----------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------
 

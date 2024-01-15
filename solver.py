@@ -1,4 +1,5 @@
 import numpy as np
+import lis_of_func as az
 
 # initial sudoku format is oneline, rows from top-bottom, connected tail-to-head
 # .
@@ -40,37 +41,8 @@ inputs = list("......43...52..8.7.8.7......3..48.5..4.6....2.9..52.4..6.4.......
 grid = np.array(inputs, dtype=int).reshape(9,9)
 
 
-# notes annotated are based from written hard code, see notes:
-# "prtSudoku hardcode"
-def prtSudoku(grid):
-  oneline_sudoku = grid.flatten()
-
-  for idx, x in np.ndenumerate(oneline_sudoku):
-
-    if idx[0] == 0 or idx[0] == 27 or idx[0] == 54:
-      print("-------------------")
-    
-    if idx[0] % 9 == 0:
-      print('|', end='')                                        # for "b|"
-
-    # swap out zero with ' '
-    if (x == 0):
-      print(' ', end='')
-    else:                                                   
-      print(x, end='')                                          # for 'x'
-
-    # fork for:
-    # row ending bar or between cells bar or space between cells
-    if (idx[0] + 1) % 9 == 0:                                   # for "|e"
-      print('|')
-    elif (idx[0] - 2) % 3 == 0 and (idx[0] + 1) % 9 != 0:       # for '|'
-      print('|', end='')
-    elif (idx[0] % 3 == 0 or idx[0] % 3 == 1):                  # for 's'
-      print(' ', end='')
-
-    if (idx[0] == 80):
-      print("-------------------")
 
 
-prtSudoku(grid)
+
+az.prtSudoku(grid)
 
