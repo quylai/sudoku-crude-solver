@@ -4,10 +4,39 @@ import lis_of_func as az
 # initial sudoku format is oneline, rows from top-bottom, connected tail-to-head
 # .
 # modify string using ascii codes to replace 46 (.) with 48 (0), then typecast it into a list of characters
-inputs = list("......43...52..8.7.8.7......3..48.5..4.6....2.9..52.4..6.4.......19..6.3......57.".translate({46: 48}))
+# inputs = list("......43."
+#               "..52..8.7"
+#               ".8.7....."
+#               ".3..48.5."#
+#               ".4.6....2"#
+#               ".9..52.4."#
+#               ".6.4....."
+#               "..19..6.3"
+#               "......57.".translate({46: 48}))
+inputs = list("2.9...43."
+              "..52948.7"
+              ".8.7...95"
+              ".3..48.5."#
+              ".4.6....2"#
+              ".9..52.4."#
+              ".6.4....."
+              "..19..6.3"
+              "......57.".translate({46: 48}))
 
 # for visual
 #
+#  2 7 9 | 5 8 6 | 4 3 1
+#  3 1 5 | 2 9 4 | 8 6 7
+#  6 8 4 | 7 1 3 | 2 9 5
+# -------|-------|-------
+#  7 3 2 | 1 4 8 | 9 5 6
+#  5 4 8 | 6 7 9 | 3 1 2
+#  1 9 6 | 3 5 2 | 7 4 8
+# -------|-------|-------
+#  8 6 7 | 4 3 5 | 1 2 9
+#  4 5 1 | 9 2 7 | 6 8 3
+#  9 2 3 | 8 6 1 | 5 7 4
+
 # -------------------
 # |     |     |4 3  |
 # |    5|2    |8   7|
@@ -41,8 +70,38 @@ inputs = list("......43...52..8.7.8.7......3..48.5..4.6....2.9..52.4..6.4.......
 grid = np.array(inputs, dtype=int).reshape(9,9)
 
 
+def rowsComp(grid):
+  row1 = grid[0,]
+  row2 = grid[1,]
+  row3 = grid[2,]
+
+  inter_val = np.intersect1d(row1, row2, assume_unique=False)
+  inter_val_coord = np.array([], dtype=int)  # initializing
 
 
+  for idx, x in np.ndenumerate(inter_val):
+    if (x != 0):  # bypassing intersection of '0'
 
+      j = np.where(row1 == x)[0]
+      k = np.where(row2 == x)[0]
+
+      # append intersected indices from row1 & row2, to a 1D array,
+      # then reshape it into 2D array m x 2
+      inter_val_coord = np.append(inter_val_coord, [j, k]).reshape(idx[0], 2)
+  
+
+  # print("inter_val_coord is:")
+  # print(inter_val_coord)
+  # print(row1)
+  # print(row2)
+  # print(inter_val)
+
+  return grid
+  
+
+rowsComp(grid)
 az.prtSudoku(grid)
 
+#---------------------------------------------------------------------------------------
+#
+#
