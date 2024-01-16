@@ -75,26 +75,35 @@ def rowsComp(grid):
   row2 = grid[1,]
   row3 = grid[2,]
 
-  inter_val = np.intersect1d(row1, row2, assume_unique=False)
-  inter_val_coord = np.array([], dtype=int)  # initializing
+  def find_inter_coord(arrA, arrB):
+    # getting all value that are intersected
+    inter_val = np.intersect1d(arrA, arrB, assume_unique=False)
+    if (np.where(inter_val == 0)[0].size != 0):
+      temp = inter_val
+      inter_val = np.delete(temp, [0])
 
+    inter_val_coord = np.array([], dtype=int)  # initializing
 
-  for idx, x in np.ndenumerate(inter_val):
-    if (x != 0):  # bypassing intersection of '0'
+    for idx, x in np.ndenumerate(inter_val):
+      if (x != 0):  # bypassing intersection of '0'
 
-      j = np.where(row1 == x)[0]
-      k = np.where(row2 == x)[0]
+        j = np.where(arrA == x)[0]
+        k = np.where(arrB == x)[0]
 
-      # append intersected indices from row1 & row2, to a 1D array,
-      # then reshape it into 2D array m x 2
-      inter_val_coord = np.append(inter_val_coord, [j, k]).reshape(idx[0], 2)
+        # append intersected indices from arrA & arrB, to a 1D array,
+        # then reshape it into 2D array m x 2
+        inter_val_coord = np.append(inter_val_coord, [j, k]).reshape(idx[0]+1, 2)
+    return inter_val, inter_val_coord
   
+  inter_info = find_inter_coord(row1, row2)
+
+
 
   # print("inter_val_coord is:")
-  # print(inter_val_coord)
+  # print(inter_info[0])
+  # print(inter_info[1])
   # print(row1)
   # print(row2)
-  # print(inter_val)
 
   return grid
   
