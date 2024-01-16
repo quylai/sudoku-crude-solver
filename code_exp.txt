@@ -1,0 +1,41 @@
+------------------
+----------------------------------------
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+function: find_inter_coord
+args: arrA, arrB
+
+arrA & arrB are 1D array that will be used to find all value intersected (inter_val) and their indices (inter_val_coord)
+
+----------------------------------------
+    inter_val = np.intersect1d(arrA, arrB, assume_unique=False)
+    if (np.where(inter_val == 0)[0].size != 0):
+      temp = inter_val
+      inter_val = np.delete(temp, [0])
+----------------------------------------
+
+method "intersect1d" return all the value share between arrA & arrB; the "if" is there to take out number 0 is if it exist in inter_val;
+.
+if condition:
+search inter_val for value 0, if exist, method "where"...[0] will store the index of value 0 in array inter_val, expect index=0 since "intersect1d" return ordered sequence;
+.
+therefore "size" is NOT 0; proceed to do switcheroo with temp variable to delete element at index zero in inter_val
+
+----------------------------------------
+    for idx, x in np.ndenumerate(inter_val):
+----------------------------------------
+
+"ndenumerate" allow index (idx) and its value (x), accessible while iterating thru inter_val; finding all value of inter_val, match that in arrA & arrB, locate its indices, assign to j & k, respectively;
+j & k become a 1 x 2, which "append" to inter_val_coord, "reshape" into array [idx[0]+1]x[2]
+
+
+
+
+
+
+
+
+
+
+
+

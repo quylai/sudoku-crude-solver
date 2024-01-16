@@ -90,9 +90,9 @@ def rowsComp(grid):
         j = np.where(arrA == x)[0]
         k = np.where(arrB == x)[0]
 
-        # append intersected indices from arrA & arrB, to a 1D array,
-        # then reshape it into 2D array m x 2
+        # append intersected indices from arrA & arrB
         inter_val_coord = np.append(inter_val_coord, [j, k]).reshape(idx[0]+1, 2)
+
     return inter_val, inter_val_coord
   
   inter_info = find_inter_coord(row1, row2)
