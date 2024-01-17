@@ -133,9 +133,16 @@ def rowsComp(grid):
           elif (xdx[0] == 2):
             tarRowBloc = [6,7,8]
 
-      # to iterate thru target row block indices
+      # rowBlocElement = [8,8,8]
+      # # initial iteration thru target row block indices
+      # # to note which element is vacant; 1=occupied 0=vacant
       # for ydx, y in np.ndenumerate(tarRowBloc):
-      #   if ()
+      #   if (row3[y] == 0):
+      #     rowBlocElement[ydx[0]] = 0
+      #   else:
+      #     rowBlocElement[ydx[0]] = 1
+
+      # print(rowBlocElement)
 
   
 
@@ -153,8 +160,8 @@ def rowsComp(grid):
   #--------------------------------------- processing in rowsComp
   inter_info = find_inter_coord(row1, row2)
 
-  print("crossCol is ", end='')
-  print(crossCol(grid, 8))
+  # print("crossCol is ", end='')
+  # print(crossCol(grid, 8))
 
   procThird(grid, inter_info)
   #---------------------------------------
@@ -173,6 +180,8 @@ az.prtSudoku(grid)
 #---------------------------------------
 
 #---------------------------------------------------------------------------------------
+# issue:
+# noticed the intersect of row1 and row2 was not compare with row3
 # need to:
 # iterate thru target row block indices
 # at each blank cell, generate the column of that cell to compare
