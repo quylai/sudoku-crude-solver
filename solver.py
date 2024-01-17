@@ -13,7 +13,8 @@ import lis_of_func as az
 #               ".6.4....."
 #               "..19..6.3"
 #               "......57.".translate({46: 48}))
-inputs = list("2.9...43."
+inputs = list(
+              "2.9...43."
               "..52948.7"
               ".8.7...95"
               ".3..48.5."#
@@ -95,22 +96,69 @@ def rowsComp(grid):
 
     return inter_val, inter_val_coord
   
+
+  def procThird(grid, info):
+    # info[0] is value list
+    # info[1] is coord list
+
+    for idx, i in np.ndenumerate(info[0]):  # in value
+      rowBlocOccupy = [0,0,0]  # flags
+
+      for j in info[1][idx]:  # in coord
+        for k in range(9):  # flagging rowBloc existed targeted number
+          if (j == k):
+            if (k in range(0,3)):
+              rowBlocOccupy[0] = 1
+            elif (k in range(3,6)):
+              rowBlocOccupy[1] = 1
+            elif (k in range(6,9)):
+              rowBlocOccupy[2] = 1
+      
+      # assigning indices to targeted row block
+      for xdx, x in np.ndenumerate(rowBlocOccupy):
+        if (x == 0):
+          if (xdx[0] == 0):
+            tarRowBloc = [0,1,2]
+          elif (xdx[0] == 1):
+            tarRowBloc = [3,4,5]
+          elif (xdx[0] == 2):
+            tarRowBloc = [6,7,8]
+
+      # to iterate thru target row block indices
+      # for ydx, y in np.ndenumerate(tarRowBloc):
+      #   if ()
+
+  
+
+
+
+    # print(type(info))
+    print("inter_info is:")
+    print(info[0])
+    print(info[1])
+    
+    return grid
+
+
+
+  #--------------------------------------- processing in rowsComp
   inter_info = find_inter_coord(row1, row2)
+  procThird(grid, inter_info)
 
 
 
-  # print("inter_val_coord is:")
-  # print(inter_info[0])
-  # print(inter_info[1])
-  # print(row1)
-  # print(row2)
+  print(row1)
+  print(row2)
+  print(row3)
+  print()
 
   return grid
   
-
+#--------------------------------------- processing in main
 rowsComp(grid)
 az.prtSudoku(grid)
 
 #---------------------------------------------------------------------------------------
-#
-#
+# need to:
+# iterate thru target row block indices
+# at each blank cell, generate the column of that cell to compare

@@ -1,11 +1,15 @@
-import numpy as np
+# import numpy as np
 
-arr = np.array([1, 2, 3, 4, 5, 6, 8])
-iVal = [2, 4, 6]
+# tup = [8,8,8,8]
 
-print(arr)
+# def aFunc():
 
-x = np.where(arr == iVal[0])
+#   def bFunc():
+#     print("hello")
+#     tup[0] = 1
+#   bFunc()
 
-print("x is" + str(x))
-print(x[0])
+# aFunc()
+
+# print(tup)
+

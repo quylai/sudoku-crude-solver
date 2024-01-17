@@ -28,7 +28,9 @@ therefore "size" is NOT 0; proceed to do switcheroo with temp variable to delete
 "ndenumerate" allow index (idx) and its value (x), accessible while iterating thru inter_val; finding all value of inter_val, match that in arrA & arrB, locate its indices, assign to j & k, respectively;
 j & k become a 1 x 2, which "append" to inter_val_coord, "reshape" into array [idx[0]+1]x[2]
 
-
+----------------------------------------
+    return inter_val, inter_val_coord
+----------------------------------------
 
 
 
