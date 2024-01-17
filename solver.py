@@ -97,6 +97,15 @@ def rowsComp(grid):
     return inter_val, inter_val_coord
   
 
+  # generating column at specified index
+  def crossCol(grid, atIndex):
+    col = np.array([], dtype=int)  # initializing
+
+    for x in range(0, 9):
+      col = np.append(col, grid[x][atIndex])
+    return col
+
+
   def procThird(grid, info):
     # info[0] is value list
     # info[1] is coord list
@@ -143,8 +152,12 @@ def rowsComp(grid):
 
   #--------------------------------------- processing in rowsComp
   inter_info = find_inter_coord(row1, row2)
-  procThird(grid, inter_info)
 
+  print("crossCol is ", end='')
+  print(crossCol(grid, 8))
+
+  procThird(grid, inter_info)
+  #---------------------------------------
 
 
   print(row1)
@@ -157,6 +170,7 @@ def rowsComp(grid):
 #--------------------------------------- processing in main
 rowsComp(grid)
 az.prtSudoku(grid)
+#---------------------------------------
 
 #---------------------------------------------------------------------------------------
 # need to:
