@@ -96,16 +96,6 @@ def rowsComp(grid):
         inter_val_coord = np.append(inter_val_coord, [j, k]).reshape(idx[0]+1, 2)
 
     return inter_val, inter_val_coord
-  
-
-  # generating column at specified index
-  def crossCol(grid, atIndex):
-    col = np.array([], dtype=int)  # initializing
-
-    for x in range(0, 9):
-      col = np.append(col, grid[x][atIndex])
-    return col
-
 
   def procThird(grid, info):
     # info[0] is value list
