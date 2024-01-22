@@ -4,17 +4,8 @@ import lis_of_func as az
 # initial sudoku format is oneline, rows from top-bottom, connected tail-to-head
 # .
 # modify string using ascii codes to replace 46 (.) with 48 (0), then typecast it into a list of characters
-# inputs = list("......43."
-#               "..52..8.7"
-#               ".8.7....."
-#               ".3..48.5."#
-#               ".4.6....2"#
-#               ".9..52.4."#
-#               ".6.4....."
-#               "..19..6.3"
-#               "......57.".translate({46: 48}))
 inputs = list(
-              "2.9...43."
+              "2795..43."
               "..52948.7"
               ".8.7...95"
               ".3..48.5."#
@@ -76,24 +67,32 @@ def rowsComp(grid):
   row2 = grid[1,]
   row3 = grid[2,]
 
-  def find_inter_coord(arrA, arrB):
-    # getting all value that are intersected
+  def find_inter_coord(arrA, arrB, arrC):
+    # getting all value that are intersected, between row1 & row2
     inter_val = np.intersect1d(arrA, arrB, assume_unique=False)
-    print(np.where(inter_val == 0))
-    if (np.where(inter_val == 0)[0].size != 0):
+    interWithRowC = np.intersect1d(inter_val, arrC, assume_unique=False)
+
+
+    # turn all value of inter_val that matched with interWithRowC, equal 0
+    for idx, i in np.ndenumerate(inter_val):
+      for j in interWithRowC:
+        if (i == j):
+          inter_val[idx[0]] = 0
+
+    # deleting all element with value of 0, in array inter_val
+    inter_val = np.sort(inter_val)
+    while (np.where(inter_val == 0)[0].size != 0):
       temp = inter_val
       inter_val = np.delete(temp, [0])
 
-    inter_val_coord = np.array([], dtype=int)  # initializing
-
+    inter_val_coord = np.array([], dtype=int)  # initializing array
     for idx, x in np.ndenumerate(inter_val):
-      if (x != 0):  # bypassing intersection of '0'
 
-        j = np.where(arrA == x)[0]
-        k = np.where(arrB == x)[0]
+      j = np.where(arrA == x)[0]
+      k = np.where(arrB == x)[0]
 
-        # append intersected indices from arrA & arrB
-        inter_val_coord = np.append(inter_val_coord, [j, k]).reshape(idx[0]+1, 2)
+      # append intersected indices from arrA & arrB
+      inter_val_coord = np.append(inter_val_coord, [j, k]).reshape(idx[0]+1, 2)
 
     return inter_val, inter_val_coord
 
@@ -149,7 +148,7 @@ def rowsComp(grid):
 
 
   #--------------------------------------- processing in rowsComp
-  inter_info = find_inter_coord(row1, row2)
+  inter_info = find_inter_coord(row1, row2, row3)
 
   # print("crossCol is ", end='')
   # print(crossCol(grid, 8))
@@ -171,8 +170,7 @@ az.prtSudoku(grid)
 #---------------------------------------
 
 #---------------------------------------------------------------------------------------
-# issue:
-# noticed the intersect of row1 and row2 was not compare with row3
+
 # need to:
 # iterate thru target row block indices
 # at each blank cell, generate the column of that cell to compare
