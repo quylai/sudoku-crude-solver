@@ -67,6 +67,87 @@ j & k become a 1 x 2 , which "append" to inter_val_coord (still 1D array at this
 
 
 
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+function: procThird
+args: grid, info
+
+info[0] is value list
+info[1] is coord list; info[1][0] is index of row1; info[1][1] is index of row2,
+
+
+------------------
+    for idx, i in np.ndenumerate(info[0]):  # in intersected value
+------------------
+.
+iterating thru intersected values array
+
+
+------------------
+      rowBlocOccupy = [0,0,0]
+------------------
+.
+array of flag to mark (with 1) which row block occupied by row1 and row2
+
+
+------------------
+      for j in info[1][idx]:  # in intersected coord
+        for k in range(9): 
+------------------
+iterating thru target set of intected coord array, evaluate which element of rowBlocOccupy to flag depending on row1 and row2 indices
+
+
+------------------
+      for xdx, x in np.ndenumerate(rowBlocOccupy):
+        if (x == 0):
+          if (xdx[0] == 0):
+            tarRowBlocInd = [0,1,2]
+          elif (xdx[0] == 1):
+            tarRowBlocInd = [3,4,5]
+          elif (xdx[0] == 2):
+            tarRowBlocInd = [6,7,8]
+------------------
+.
+deciding which indices set would be tarRowBlocInd (target row block indices)
+
+
+------------------
+      rowBlocElement = [8,8,8]  # initializing
+      for ydx, y in np.ndenumerate(tarRowBlocInd):
+        if (row3[y] == 0):
+          rowBlocElement[ydx[0]] = 0
+        else:
+          rowBlocElement[ydx[0]] = 1
+------------------
+.
+of tarRowBlocInd, flagging 1=occupied or 0=vacant
+
+
+------------------
+      if (np.where(rowBlocElement == 0)[0].size == 1):
+------------------
+when there is a single vacant in rowBlocElement; meaning:
+[0,1,1] or [1,0,1] or [1,1,0]
+then current iterated value in intersected values array is the value for that vacant spot
+.
+!!!!!!!!!!!!!!!!!!
+note that "grid[2,]..." is HARDCODED, need to rewrite row3 in a relative manner
+!!!!!!!!!!!!!!!!!!
+.
+np.where(rowBlocElement == 0)[0]
+= an array of indices where 0 value is found in rowBlocElement array
+.
+np.where(rowBlocElement == 0)[0][0]
+= value of first indices where 0 value is found in rowBlocElement array
+
+
+
+
+
+
+
+
+
 
 
 

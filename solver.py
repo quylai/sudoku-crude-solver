@@ -5,15 +5,25 @@ import lis_of_func as az
 # .
 # modify string using ascii codes to replace 46 (.) with 48 (0), then typecast it into a list of characters
 inputs = list(
-              "2795..43."
-              "..52948.7"
-              ".8.7...95"
+              "...58..3."
+              "3.5...8.."
+              "6.471.29."
               ".3..48.5."#
               ".4.6....2"#
               ".9..52.4."#
               ".6.4....."
               "..19..6.3"
               "......57.".translate({46: 48}))
+
+              # "........."
+              # "........."
+              # "........."
+              # ".3..48.5."#
+              # ".4.6....2"#
+              # ".9..52.4."#
+              # ".6.4....."
+              # "..19..6.3"
+              # "......57.".translate({46: 48}))
 
 # for visual
 #
@@ -28,7 +38,7 @@ inputs = list(
 #  8 6 7 | 4 3 5 | 1 2 9
 #  4 5 1 | 9 2 7 | 6 8 3
 #  9 2 3 | 8 6 1 | 5 7 4
-
+#
 # -------------------
 # |     |     |4 3  |
 # |    5|2    |8   7|
@@ -42,7 +52,7 @@ inputs = list(
 # |    1|9    |6   3|
 # |     |     |5 7  |
 # -------------------
-
+#
 #   a b c d e f g h i
 #  -------------------
 # 1|0 1 2|3 4 5|6 7 8|
@@ -97,13 +107,13 @@ def rowsComp(grid):
     return inter_val, inter_val_coord
 
   def procThird(grid, info):
-    # info[0] is value list
-    # info[1] is coord list
+    # info[0] is intersected values array
+    # info[1] is intersected coordinates array
 
-    for idx, i in np.ndenumerate(info[0]):  # in value
+    for idx, i in np.ndenumerate(info[0]):  # in intersected values
       rowBlocOccupy = [0,0,0]  # flags
 
-      for j in info[1][idx]:  # in coord
+      for j in info[1][idx]:  # in intersected coord
         for k in range(9):  # flagging rowBloc existed targeted number
           if (j == k):
             if (k in range(0,3)):
@@ -117,28 +127,35 @@ def rowsComp(grid):
       for xdx, x in np.ndenumerate(rowBlocOccupy):
         if (x == 0):
           if (xdx[0] == 0):
-            tarRowBloc = [0,1,2]
+            tarRowBlocInd = np.array([0,1,2])
           elif (xdx[0] == 1):
-            tarRowBloc = [3,4,5]
+            tarRowBlocInd = np.array([3,4,5])
           elif (xdx[0] == 2):
-            tarRowBloc = [6,7,8]
+            tarRowBlocInd = np.array([6,7,8])
+      print(tarRowBlocInd)  ##
 
-      # rowBlocElement = [8,8,8]
-      # # initial iteration thru target row block indices
-      # # to note which element is vacant; 1=occupied 0=vacant
-      # for ydx, y in np.ndenumerate(tarRowBloc):
-      #   if (row3[y] == 0):
-      #     rowBlocElement[ydx[0]] = 0
-      #   else:
-      #     rowBlocElement[ydx[0]] = 1
+      rowBlocElement = np.array([8,8,8])  # initializing
+      # initial iteration thru target row block indices
+      # to note which element is vacant; 1=occupied 0=vacant
+      for ydx, y in np.ndenumerate(tarRowBlocInd):
+        if (row3[y] == 0):
+          rowBlocElement[ydx[0]] = 0
+        else:
+          rowBlocElement[ydx[0]] = 1
+      
+      # when single vacant in rowBlocElement happen
+      if (np.where(rowBlocElement == 0)[0].size == 1):
+        grid[2, tarRowBlocInd[np.where(rowBlocElement == 0)[0][0]]] = i
 
-      # print(rowBlocElement)
+      # when 2 vacant in rowBlocElement,
+      # need column to cross eliminate one of the vacant
+
 
   
 
 
 
-    # print(type(info))
+
     print("inter_info is:")
     print(info[0])
     print(info[1])
