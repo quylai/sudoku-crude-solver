@@ -73,15 +73,11 @@ grid = np.array(inputs, dtype=int).reshape(9,9)
 
 
 def rowsComp(grid):
-  row1 = grid[0,]
-  row2 = grid[1,]
-  row3 = grid[2,]
 
   def find_inter_coord(arrA, arrB, arrC):
-    # getting all value that are intersected, between row1 & row2
+    # getting all value that are intersected, between arrA & arrB
     inter_val = np.intersect1d(arrA, arrB, assume_unique=False)
     interWithRowC = np.intersect1d(inter_val, arrC, assume_unique=False)
-
 
     # turn all value of inter_val that matched with interWithRowC, equal 0
     for idx, i in np.ndenumerate(inter_val):
@@ -105,8 +101,9 @@ def rowsComp(grid):
       inter_val_coord = np.append(inter_val_coord, [j, k]).reshape(idx[0]+1, 2)
 
     return inter_val, inter_val_coord
+  
 
-  def procThird(grid, info):
+  def procThird(grid, info, arrC):
     # info[0] is intersected values array
     # info[1] is intersected coordinates array
 
@@ -132,13 +129,12 @@ def rowsComp(grid):
             tarRowBlocInd = np.array([3,4,5])
           elif (xdx[0] == 2):
             tarRowBlocInd = np.array([6,7,8])
-      print(tarRowBlocInd)  ##
 
       rowBlocElement = np.array([8,8,8])  # initializing
       # initial iteration thru target row block indices
       # to note which element is vacant; 1=occupied 0=vacant
       for ydx, y in np.ndenumerate(tarRowBlocInd):
-        if (row3[y] == 0):
+        if (arrC[y] == 0):
           rowBlocElement[ydx[0]] = 0
         else:
           rowBlocElement[ydx[0]] = 1
@@ -149,35 +145,17 @@ def rowsComp(grid):
 
       # when 2 vacant in rowBlocElement,
       # need column to cross eliminate one of the vacant
-
-
-  
-
-
-
-
-    print("inter_info is:")
-    print(info[0])
-    print(info[1])
     
     return grid
 
-
-
   #--------------------------------------- processing in rowsComp
+  row1 = grid[0,]
+  row2 = grid[1,]
+  row3 = grid[2,]
+
   inter_info = find_inter_coord(row1, row2, row3)
-
-  # print("crossCol is ", end='')
-  # print(crossCol(grid, 8))
-
-  procThird(grid, inter_info)
+  procThird(grid, inter_info, row3)
   #---------------------------------------
-
-
-  print(row1)
-  print(row2)
-  print(row3)
-  print()
 
   return grid
   
