@@ -17,7 +17,7 @@ arrA & arrB are 1D array that will be used to find all value intersected (inter_
 method "intersect1d" return all the value share between arrA & arrB; the "if" is there to take out number 0 is if it exist in inter_val;
 .
 if condition:
-search inter_val for value 0, if exist, method "where"...[0] will store the index of value 0 in array inter_val, expect index=0 since "intersect1d" return ordered sequence;
+search inter_val for value 0, if exist, method "where"...[0] contain an array of indices where all value 0 appear on array inter_val, expect index=0 since "intersect1d" return ordered sequence;
 .
 therefore "size" is NOT 0; proceed to do switcheroo with temp variable to delete element at index zero in inter_val
 

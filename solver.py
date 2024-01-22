@@ -79,6 +79,7 @@ def rowsComp(grid):
   def find_inter_coord(arrA, arrB):
     # getting all value that are intersected
     inter_val = np.intersect1d(arrA, arrB, assume_unique=False)
+    print(np.where(inter_val == 0))
     if (np.where(inter_val == 0)[0].size != 0):
       temp = inter_val
       inter_val = np.delete(temp, [0])
