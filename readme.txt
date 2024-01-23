@@ -77,7 +77,7 @@ Top segment
 - on row3, determine which of it row block absent of inter_val
   - if only 1 cell of row block vaccant, then
     cell = inter_val
-  - else, inclusive
+  - else, use cross-column at those vacant cell to see if inter_val can be checkoff
 
 - evaluate next inter_val
 

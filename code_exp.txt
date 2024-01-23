@@ -2,25 +2,142 @@
 ----------------------------------------
 ----------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------
-function: find_inter_coord
-args: arrA, arrB, arrC
+prtSudoku hardcode
 
-arrA & arrB are 1D array that will be used to find all value intersected "inter_val" and their indices "inter_val_coord" (intersected value coordinates)
+i=0
+	print("-------------------")
+
+	print('|', end='')		b|
+
+	print(x, end='')		x
+	print(' ', end='')		s
+i=1
+	print(x, end='')		x
+	print(' ', end='')		s
+i=2
+	print(x, end='')		x
+	print('|', end='')		|
+i=3
+	print(x, end='')		x
+	print(' ', end='')		s
+i=4
+	print(x, end='')		x
+	print(' ', end='')		s
+i=5
+	print(x, end='')		x
+	print('|', end='')		|
+i=6
+	print(x, end='')		x
+	print(' ', end='')		s
+i=7
+	print(x, end='')		x
+	print(' ', end='')		s
+i=8
+	print(x, end='')		x
+	print('|')			|e
+i=9
+	print('|', end='')		b|
+
+	print(x, end='')		x
+	print(' ', end='')		s
+i=10
+	print(x, end='')		x
+	print(' ', end='')		s
+i=11
+	print(x, end='')		x
+	print('|', end='')		|
+i=12
+	print(x, end='')		x
+	print(' ', end='')		s
+i=13
+	print(x, end='')		x
+	print(' ', end='')		s
+i=14
+	print(x, end='')		x
+	print('|', end='')		|
+i=15
+	print(x, end='')		x
+	print(' ', end='')		s
+i=16
+	print(x, end='')		x
+	print(' ', end='')		s
+i=17
+	print(x, end='')		x
+	print('|')			|e
+i=18
+	print('|', end='')		b|
+
+	print(x, end='')		x
+	print(' ', end='')		s
+i=19
+	print(x, end='')		x
+	print(' ', end='')		s
+i=20
+	print(x, end='')		x
+	print('|', end='')		|
+i=21
+	print(x, end='')		x
+	print(' ', end='')		s
+i=22
+	print(x, end='')		x
+	print(' ', end='')		s
+i=23
+	print(x, end='')		x
+	print('|', end='')		|
+i=24
+	print(x, end='')		x
+	print(' ', end='')		s
+i=25
+	print(x, end='')		x
+	print(' ', end='')		s
+i=26
+	print(x, end='')		x
+	print('|')			|e
+
+
+#-----------------
+Above are hardcode of function "prtSudoku" from indices 0 to 26.  Annotation are as followed:
+{b|}	row beginning bar
+{x}	cell value
+{|e}	row ending bar
+{|}	between cells bar
+{s}	space between cells
+
+
+#-----------------
+About function prtSudoku
+.
+Argument of grid is reduce to 1D array {oneline_sudoku}.  It is iterated thru for-loop to make necessary arrangement for outputting onto command line.  Method "ndenumerate" allow access to array indices {idx} and its corresponding values {x}.  {idx} is given in tuple of one item, of type "int".
+
+
+
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+function: find_inter_coord (find intersected coordinates)
+location: inside func rowsComp
+args: grid, curRowsSeq
+
+grid[curRowsSeq[0],] is arrA
+grid[curRowsSeq[1],] is arrB
+grid[curRowsSeq[2],] is arrC
+curRowsSeq (current rows sequence)
+
+arrA & arrB are 1D array that will be used to find all intersected values "inter_val" and their indices "inter_val_coord" (intersected value coordinates)
 .
 arrC is there to be compare with "inter_val", if value of "inter_val" matched with arrC, then that element in inter_val needed to be deleted
 
 ----------------------------------------
 {inter_val} is an array contains intersected values between arrA & arrB
-{interWithRow3} is an array contains intersected values between inter_val & arrC
+{interWithArrC} is an array contains intersected values between inter_val & arrC
 
 
 ----------------------------------------
     for idx, i in np.ndenumerate(inter_val):
-      for j in interWithRow3:
+      for j in interWithArrC:
         if (i == j):
           inter_val[idx[0]] = 0
 ----------------------------------------
-turn all value of inter_val that matched with interWithRow3, to 0
+turn all value of inter_val that matched with interWithArrC, to 0
 
 
 ----------------------------------------
@@ -32,7 +149,7 @@ turn all value of inter_val that matched with interWithRow3, to 0
 need to sort inter_val to have all the zeroes move to beginning of array
 .
 while condition:
-"where...[0]" contain an array of indices where all value 0 appear on array inter_val, therefore if 0 exist then array size is not not 0
+"where...[0]" contain an array of indices where all value 0 appear on array inter_val, therefore if 0 exist then indices array size is not 0
 .
 doing switcheroo with temp to delete first index of inter_val
 
@@ -52,14 +169,14 @@ doing switcheroo with temp to delete first index of inter_val
     inter_val_coord = np.array([], dtype=int)
 ------------------
 .
-need to have inter_val_coord initialize in order to do the appendings later
+need to have inter_val_coord initialized in order to do the appendings later
 
 ------------------
     for idx, x in np.ndenumerate(inter_val):
 ------------------
 .
-"ndenumerate" allow index (idx) and its value (x), accessible while iterating thru inter_val; finding all value of inter_val, match that in arrA & arrB, locate its indices, assign to j & k, respectively;
-j & k become a 1 x 2 , which "append" to inter_val_coord (still 1D array at this point), then "reshape" into array [idx[0]+1]_by_[2]
+"ndenumerate" allow index (idx) and its value (x) accessible, while iterating thru inter_val; finding all value of inter_val, match that in arrA & arrB, locate its indices, assign to j & k, respectively;
+j & k become a 1 x 2 array, which "append" to inter_val_coord (still 1D array at this point), then "reshape" into array [idx[0]+1]_by_[2]
 
 ------------------
     return inter_val, inter_val_coord
@@ -69,12 +186,15 @@ j & k become a 1 x 2 , which "append" to inter_val_coord (still 1D array at this
 
 ----------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------
-function: procThird
-args: grid, info
+function: procThird (processing third row)
+location: inside func rowsComp
+args: grid, info, curRowsSeq
 
-info[0] is value list
-info[1] is coord list; info[1][0] is index of row1; info[1][1] is index of row2,
-
+info[0] is intersected values array
+info[1] is intersected coordinates array 
+info[1][0] is index of row1;
+info[1][1] is index of row2,
+curRowsSeq (current rows sequence)
 
 ------------------
     for idx, i in np.ndenumerate(info[0]):  # in intersected value
@@ -84,7 +204,7 @@ iterating thru intersected values array
 
 
 ------------------
-      rowBlocOccupy = [0,0,0]
+      rowBlocOccupy = np.array([0,0,0])
 ------------------
 .
 array of flag to mark (with 1) which row block occupied by row1 and row2
@@ -94,7 +214,7 @@ array of flag to mark (with 1) which row block occupied by row1 and row2
       for j in info[1][idx]:  # in intersected coord
         for k in range(9): 
 ------------------
-iterating thru target set of intected coord array, evaluate which element of rowBlocOccupy to flag depending on row1 and row2 indices
+iterating thru target set of intersected coord array, evaluating which element of rowBlocOccupy to flag (1=occupied, 0=open) depending on row1 and row2 indices
 
 
 ------------------
@@ -108,24 +228,65 @@ iterating thru target set of intected coord array, evaluate which element of row
             tarRowBlocInd = [6,7,8]
 ------------------
 .
-deciding which indices set would be tarRowBlocInd (target row block indices)
+assigning which indices set would be for tarRowBlocInd (target row block indices)
 
 
 ------------------
       rowBlocElement = [8,8,8]  # initializing
       for ydx, y in np.ndenumerate(tarRowBlocInd):
-        if (row3[y] == 0):
+        if (grid[curRowsSeq[2]][y] == 0):
           rowBlocElement[ydx[0]] = 0
         else:
           rowBlocElement[ydx[0]] = 1
 ------------------
 .
-of tarRowBlocInd, flagging 1=occupied or 0=vacant
+recalled grid[curRowsSeq[2]] is arrC;
+scanning tarRowBlocInd, flagging 1=occupied or 0=vacant, onto rowBlocElement
 
 
+----------------------------------------
+      dummyRBE = rowBlocElement
+      if (np.where(dummyRBE == 0)[0].size >= 2):
+        for z in np.where(dummyRBE == 0)[0]:
+          dummyCol = grid[:, tarRowBlocInd[z]]
+          for a in dummyCol:
+            if (a == i):
+              rowBlocElement[z] = 1
+----------------------------------------
+.
+needed temp variable dummyRBE to clone rowBlocElement array, since value of rowBlocElement is possibly changing within the for loop
+.
 ------------------
+      if (np.where(dummyRBE == 0)[0].size >= 2):
+------------------
+.
+in the case of all 3 cells of dummyRBE empty, which is dummyRBE = [0,0,0] then
+np.where(dummyRBE == 0)[0].size
+will have 3 elements; likewise, 2 cells empty equal to 2 elements
+.
+np.where(dummyRBE == 0)[0]
+= an array of indices where 0 value is found in rowBlocElement array
+.
+np.where(dummyRBE == 0)[0][0]
+= value of first indices where 0 value is found in rowBlocElement array
+.
+------------------
+          dummyCol = grid[:, tarRowBlocInd[z]]
+------------------
+generating a cross-column (dummyCol) at current empty element
+.
+------------------
+          for a in dummyCol:
+            if (a == i):
+              rowBlocElement[z] = 1
+------------------
+.
+when element of column matched with currently iterated element of intersected values array; rowBlocElement is flagged 
+
+
+----------------------------------------
       if (np.where(rowBlocElement == 0)[0].size == 1):
-------------------
+----------------------------------------
 when there is a single vacant in rowBlocElement; meaning:
 [0,1,1] or [1,0,1] or [1,1,0]
 then current iterated value in intersected values array is the value for that vacant spot
@@ -138,6 +299,8 @@ np.where(rowBlocElement == 0)[0][0]
 
 
 
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
 
 
 
