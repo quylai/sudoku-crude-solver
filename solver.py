@@ -5,15 +5,15 @@ import lis_of_func as az
 # .
 # modify string using ascii codes to replace 46 (.) with 48 (0), then typecast it into a list of characters
 inputs = list(
-              "......43."
+              "2.....43."
               "..52..8.7"
               ".8.7....."
               ".3..48.5."#
-              ".4.6....2"#
+              ".4.67...2"#
               ".9..52.4."#
-              ".6.4....."
+              ".674...2."
               "..19..6.3"
-              "......57."
+              "......574"
               .translate({46: 48}))  
               # "......43."
               # "..52..8.7"
@@ -147,18 +147,16 @@ def rowsComp(grid):
         else:
           rowBlocElement[ydx[0]] = 1
       
-      # when 2 vacant in rowBlocElement occurred
+      # when 2_or_3 vacant occurred in rowBlocElement 
       dummyRBE = rowBlocElement
-      if (np.where(dummyRBE == 0)[0].size == 2):
-        # for zdx, z in np.ndenumerate(np.where(dummyRBE == 0)[0]):
+      if (np.where(dummyRBE == 0)[0].size >= 2):
         for z in np.where(dummyRBE == 0)[0]:
           dummyCol = grid[:, tarRowBlocInd[z]]
-          # print(dummyCol)
           for a in dummyCol:
             if (a == i):
               rowBlocElement[z] = 1
             
-      # when single vacant in rowBlocElement occurred
+      # when single vacant occurred in rowBlocElement 
       if (np.where(rowBlocElement == 0)[0].size == 1):
         grid[curRowsSeq[2], tarRowBlocInd[np.where(rowBlocElement == 0)[0][0]]] = i
 
