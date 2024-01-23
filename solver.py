@@ -5,25 +5,26 @@ import lis_of_func as az
 # .
 # modify string using ascii codes to replace 46 (.) with 48 (0), then typecast it into a list of characters
 inputs = list(
-              "...58..3."
-              "3.5...8.."
-              "6.471.29."
-              ".3.148.5."#
-              ".4.6..3.2"#
-              "19..52.4."#
-              "86.4...2."
-              "..19.76.3"
-              ".2.8..57.".translate({46: 48}))
-
-              # "........."
-              # "........."
-              # "........."
+              "......43."
+              "..52..8.7"
+              ".8.7....."
+              ".3..48.5."#
+              ".4.6....2"#
+              ".9..52.4."#
+              ".6.4....."
+              "..19..6.3"
+              "......57."
+              .translate({46: 48}))  
+              # "......43."
+              # "..52..8.7"
+              # ".8.7....."
               # ".3..48.5."#
               # ".4.6....2"#
               # ".9..52.4."#
               # ".6.4....."
               # "..19..6.3"
-              # "......57.".translate({46: 48}))
+              # "......57."
+              # .translate({46: 48}))  ## original
 
 # for visual
 #
@@ -70,19 +71,21 @@ inputs = list(
 
 # create a 1D array from list (inputs), then reshape it into 9x9 array
 grid = np.array(inputs, dtype=int).reshape(9,9)
+# az.prtSudoku(grid)  ##
 
 
 def rowsComp(grid):
 
   # def find_inter_coord(arrA, arrB, arrC):
   def find_inter_coord(grid, curRowsSeq):
-    # grid[curRowsSeq[0]] is arrA
-    # grid[curRowsSeq[1]] is arrB
+    # grid[curRowsSeq[0],] is arrA
+    # grid[curRowsSeq[1],] is arrB
+    # grid[curRowsSeq[2],] is arrC
 
     # getting all value that are intersected, between arrA & arrB
     inter_val = np.intersect1d(grid[curRowsSeq[0],], grid[curRowsSeq[1],],
                                assume_unique=False)
-    interWithRowC = np.intersect1d(inter_val, grid[curRowsSeq[2]], assume_unique=False)
+    interWithRowC = np.intersect1d(inter_val, grid[curRowsSeq[2],], assume_unique=False)
 
     # turn all value of inter_val that matched with interWithRowC, equal 0
     for idx, i in np.ndenumerate(inter_val):
@@ -144,12 +147,22 @@ def rowsComp(grid):
         else:
           rowBlocElement[ydx[0]] = 1
       
-      # when single vacant in rowBlocElement happen
+      # when 2 vacant in rowBlocElement occurred
+      dummyRBE = rowBlocElement
+      if (np.where(dummyRBE == 0)[0].size == 2):
+        # for zdx, z in np.ndenumerate(np.where(dummyRBE == 0)[0]):
+        for z in np.where(dummyRBE == 0)[0]:
+          dummyCol = grid[:, tarRowBlocInd[z]]
+          # print(dummyCol)
+          for a in dummyCol:
+            if (a == i):
+              rowBlocElement[z] = 1
+            
+      # when single vacant in rowBlocElement occurred
       if (np.where(rowBlocElement == 0)[0].size == 1):
         grid[curRowsSeq[2], tarRowBlocInd[np.where(rowBlocElement == 0)[0][0]]] = i
 
-      # when 2 vacant in rowBlocElement,
-      # need column to cross eliminate one of the vacant
+
     
     return grid
 
@@ -173,7 +186,3 @@ az.prtSudoku(grid)
 #---------------------------------------
 
 #---------------------------------------------------------------------------------------
-
-# need to:
-# - when 2 vacant in rowBlocElement,
-#   need column to cross eliminate one of the vacant

@@ -130,10 +130,6 @@ when there is a single vacant in rowBlocElement; meaning:
 [0,1,1] or [1,0,1] or [1,1,0]
 then current iterated value in intersected values array is the value for that vacant spot
 .
-!!!!!!!!!!!!!!!!!!
-note that "grid[2,]..." is HARDCODED, need to rewrite row3 in a relative manner
-!!!!!!!!!!!!!!!!!!
-.
 np.where(rowBlocElement == 0)[0]
 = an array of indices where 0 value is found in rowBlocElement array
 .
