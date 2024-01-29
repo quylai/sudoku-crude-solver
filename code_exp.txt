@@ -115,12 +115,15 @@ Argument of grid is reduce to 1D array {oneline_sudoku}.  It is iterated thru fo
 ----------------------------------------------------------------------------------------
 function: find_inter_coord (find intersected coordinates)
 location: inside func rowsComp
-args: grid, curRowsSeq
+args: grid, linesSeq, rowsOrCols
+constraint: definition listing needed to be b4 rowsComp and colsComp function
 
-grid[curRowsSeq[0],] is arrA
-grid[curRowsSeq[1],] is arrB
-grid[curRowsSeq[2],] is arrC
-curRowsSeq (current rows sequence)
+
+- grid is 2D sudoku grid itself
+- linesSeq is lines sequence currently processing
+- rowsOrCols is 'r' or 'c' to annotate whether intersection process is between 
+  rows or cols
+
 
 arrA & arrB are 1D array that will be used to find all intersected values "inter_val" and their indices "inter_val_coord" (intersected value coordinates)
 .
@@ -173,6 +176,7 @@ need to have inter_val_coord initialized in order to do the appendings later
 
 ------------------
     for idx, x in np.ndenumerate(inter_val):
+      ...
 ------------------
 .
 "ndenumerate" allow index (idx) and its value (x) accessible, while iterating thru inter_val; finding all value of inter_val, match that in arrA & arrB, locate its indices, assign to j & k, respectively;

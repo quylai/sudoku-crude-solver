@@ -37,43 +37,50 @@ def prtSudoku(grid):
 
 #---------------------------------------------------------------------------------------
 #---------------------------------------------------------------------------------------
+def find_inter_coord(grid, linesSeq, rowsOrCols):
+
+  if (rowsOrCols == 'r'):
+    arrA = grid[linesSeq[0],]
+    arrB = grid[linesSeq[1],]
+    arrC = grid[linesSeq[2],]
+  elif (rowsOrCols == 'c'):
+    arrA = grid[:, linesSeq[0]]
+    arrB = grid[:, linesSeq[1]]
+    arrC = grid[:, linesSeq[2]]
+
+  # getting all value that are intersected, between arrA & arrB
+  inter_val = np.intersect1d(arrA, arrB, assume_unique=False)
+  interWithArrC = np.intersect1d(inter_val, arrC, assume_unique=False)
+
+  # turn all value of inter_val that matched with interWithArrC, equal 0
+  for idx, i in np.ndenumerate(inter_val):
+    for j in interWithArrC:
+      if (i == j):
+        inter_val[idx[0]] = 0
+
+  # deleting all element with value of 0, in array inter_val
+  inter_val = np.sort(inter_val)
+  while (np.where(inter_val == 0)[0].size != 0):
+    temp = inter_val
+    inter_val = np.delete(temp, [0])
+
+  inter_val_coord = np.array([], dtype=int)  # initializing array
+  for xdx, x in np.ndenumerate(inter_val):
+
+    i = np.where(arrA == x)[0]
+    j = np.where(arrB == x)[0]
+
+    # append intersected indices from arrA & arrB
+    inter_val_coord = np.append(inter_val_coord, [i, j]).reshape(xdx[0]+1, 2)
+
+  return inter_val, inter_val_coord
+
+
+#---------------------------------------------------------------------------------------
+#---------------------------------------------------------------------------------------
 def rowsComp(grid):
 
-  def find_inter_coord(grid, curRowsSeq):
-    # grid[curRowsSeq[0],] is arrA
-    # grid[curRowsSeq[1],] is arrB
-    # grid[curRowsSeq[2],] is arrC
-
-    # getting all value that are intersected, between arrA & arrB
-    inter_val = np.intersect1d(grid[curRowsSeq[0],], grid[curRowsSeq[1],],
-                               assume_unique=False)
-    interWithArrC = np.intersect1d(inter_val, grid[curRowsSeq[2],], assume_unique=False)
-
-    # turn all value of inter_val that matched with interWithArrC, equal 0
-    for idx, i in np.ndenumerate(inter_val):
-      for j in interWithArrC:
-        if (i == j):
-          inter_val[idx[0]] = 0
-
-    # deleting all element with value of 0, in array inter_val
-    inter_val = np.sort(inter_val)
-    while (np.where(inter_val == 0)[0].size != 0):
-      temp = inter_val
-      inter_val = np.delete(temp, [0])
-
-    inter_val_coord = np.array([], dtype=int)  # initializing array
-    for idx, x in np.ndenumerate(inter_val):
-
-      j = np.where(grid[curRowsSeq[0]] == x)[0]
-      k = np.where(grid[curRowsSeq[1]] == x)[0]
-
-      # append intersected indices from arrA & arrB
-      inter_val_coord = np.append(inter_val_coord, [j, k]).reshape(idx[0]+1, 2)
-
-    return inter_val, inter_val_coord
-  
-
-  def procThird(grid, info, curRowsSeq):
+  def procThirdRow(grid, info, curRowsSeq):
     # info[0] is intersected values array
     # info[1] is intersected coordinates array
 
@@ -132,8 +139,8 @@ def rowsComp(grid):
   ])
 
   for i in rowsSeq:
-    inter_info = find_inter_coord(grid, i)
-    procThird(grid, inter_info, i)
+    inter_info = find_inter_coord(grid, i, 'r')
+    procThirdRow(grid, inter_info, i)
   #--------------------------------------- ends processing in rowsComp
 
   return grid

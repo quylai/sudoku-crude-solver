@@ -6,16 +6,27 @@ import lis_of_func as az
 # modify string using ascii codes to replace 46 (.) with 48 (0), then typecast it into a list of characters
 inputs = list(
 
-              "......43."
-              "..52..8.7"
-              ".8.7....."
-              ".3..48.5."#
-              ".4.6....2"#
-              ".9..52.4."#
-              ".6.4....."
-              "..19..6.3"
-              "......57."
-              .translate({46: 48}))  ## original
+              "...9.3..."
+              "..38274.."
+              ".2.....8."
+              "26.4.1.79"  #
+              ".7.....5."  #
+              "13.5.2.64"  #
+              ".8.....9."
+              "..41692.."
+              "...7.8..."
+              .translate({46: 48}))  
+  
+              # "...9.3..."
+              # "..38274.."
+              # ".2.....8."
+              # "26.4.1.79"  #
+              # ".7.....5."  #
+              # "13.5.2.64"  #
+              # ".8.....9."
+              # "..41692.."
+              # "...7.8..."
+              # .translate({46: 48}))  ## orig, with proc 4 times of rowsComp, 7# solved
 
 # "96.8....5.5.92..46....1.......6.2.81.82.3.57.14.7.5.......5....71..49.5.2....8.34" #5R
 # "...19.....29.54.6...7...93..5.7.2..347.....926..9.5.7..31...2...6.42.18.....61..." #5R
@@ -68,25 +79,22 @@ inputs = list(
 
 # create a 1D array from list (inputs), then reshape it into 9x9 array
 grid = np.array(inputs, dtype=int).reshape(9,9)
-az.prtSudoku(grid)  ##
+# az.prtSudoku(grid)  ##
 
 
 def colsComp(grid):
   print("in colsComp")  ##
 
-  def find_inter_coord(grid, curColsSeq):
-    print("in find_inter_coord")
-    # grid[:, curColsSeq[0]] is colA
-    # grid[:, curColsSeq[1]] is colB
-    # grid[:, curColsSeq[2]] is colC
+  def procThirdCol(grid, info, curColsSeq):
+    # info[0] is intersected values array
+    # info[1] is intersected coordinates array
 
-    print(grid[:, curColsSeq[0]])
-    print(grid[:, curColsSeq[1]])
-    print(grid[:, curColsSeq[2]])
+    print(info[0])
+    print(info[1])
+    # print("------------------")
 
+  
 
-    return
-    # return inter_val, inter_val_coord
 
   #--------------------------------------- begins processing in colsComp
   colsSeq = np.array([
@@ -97,8 +105,8 @@ def colsComp(grid):
 
 
   for i in colsSeq:
-    inter_info = find_inter_coord(grid, i)
-
+    inter_info = az.find_inter_coord(grid, i, 'c')
+    procThirdCol(grid, inter_info, i)
   #--------------------------------------- ends processing in colsComp
   
   return grid
