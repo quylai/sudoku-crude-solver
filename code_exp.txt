@@ -114,6 +114,7 @@ Argument of grid is reduce to 1D array {oneline_sudoku}.  It is iterated thru fo
 ----------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------
 function: find_inter_coord (find intersected coordinates)
+
 location: inside func rowsComp
 args: grid, linesSeq, rowsOrCols
 constraint: definition listing needed to be b4 rowsComp and colsComp function
@@ -190,7 +191,8 @@ j & k become a 1 x 2 array, which "append" to inter_val_coord (still 1D array at
 
 ----------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------
-function: procThird (processing third row)
+function: procThirdRow (processing third row)
+
 location: inside func rowsComp
 args: grid, info, curRowsSeq
 
@@ -211,7 +213,7 @@ iterating thru intersected values array
       rowBlocOccupy = np.array([0,0,0])
 ------------------
 .
-array of flag to mark (with 1) which row block occupied by row1 and row2
+array of flag to mark (with 1) which row block occupied by arrA and arrB
 
 
 ------------------

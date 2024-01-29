@@ -12,7 +12,7 @@ inputs = list(
               "26.4.1.79"  #
               ".7.....5."  #
               "13.5.2.64"  #
-              ".8.....9."
+              ".86....9."
               "..41692.."
               "...7.8..."
               .translate({46: 48}))  
@@ -79,21 +79,59 @@ inputs = list(
 
 # create a 1D array from list (inputs), then reshape it into 9x9 array
 grid = np.array(inputs, dtype=int).reshape(9,9)
-# az.prtSudoku(grid)  ##
+az.prtSudoku(grid)  ##
 
 
 def colsComp(grid):
-  print("in colsComp")  ##
 
   def procThirdCol(grid, info, curColsSeq):
     # info[0] is intersected values array
     # info[1] is intersected coordinates array
-
+    print("------------------")
     print(info[0])
     print(info[1])
-    # print("------------------")
 
-  
+    for idx, i in np.ndenumerate(info[0]):  # in intersected values
+      colBlocOccupy = np.array([0,0,0])  # flags
+
+      for j in info[1][idx]:  # in intersected coord
+        for k in range(9):  # flagging colBloc existed targeted number
+          if (j == k):
+            if (k in range(0,3)):
+              colBlocOccupy[0] = 1
+            elif (k in range(3,6)):
+              colBlocOccupy[1] = 1
+            elif (k in range(6,9)):
+              colBlocOccupy[2] = 1
+      
+      # assigning indices to targeted col block
+      for xdx, x in np.ndenumerate(colBlocOccupy):
+        if (x == 0):
+          if (xdx[0] == 0):
+            tarColBlocInd = np.array([0,1,2])
+          elif (xdx[0] == 1):
+            tarColBlocInd = np.array([3,4,5])
+          elif (xdx[0] == 2):
+            tarColBlocInd = np.array([6,7,8])
+
+      colBlocElement = np.array([8,8,8])  # initializing
+      # initial iteration thru target col block indices
+      # to note which element is vacant; 1=occupied 0=vacant
+      for ydx, y in np.ndenumerate(tarColBlocInd):
+        if (grid[y:y+1, curColsSeq[2]] == 0):
+          colBlocElement[ydx[0]] = 0
+        else:
+          colBlocElement[ydx[0]] = 1
+
+      # when single vacant occurred in colBlocElement 
+      if (np.where(colBlocElement == 0)[0].size == 1):
+        # grid[curColsSeq[2], tarColBlocInd[np.where(colBlocElement == 0)[0][0]]] = i
+        grid[tarColBlocInd[np.where(colBlocElement == 0)[0][0]], curColsSeq[2]] = i
+
+
+      print(colBlocElement)  ##
+
+
 
 
   #--------------------------------------- begins processing in colsComp
@@ -127,7 +165,7 @@ grid = colsComp(grid)
 # grid = az.rowsComp(grid)
 # grid = az.rowsComp(grid)
 # print("----------------------------------------")
-# az.prtSudoku(grid)
+az.prtSudoku(grid)
 #--------------------------------------- ends processing in main
 
 #---------------------------------------------------------------------------------------
