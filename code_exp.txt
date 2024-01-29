@@ -307,6 +307,87 @@ np.where(rowBlocElement == 0)[0][0]
 
 ----------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------
+function: procThirdCol (processing third col)
+
+location: inside func colsComp
+args: grid, info, curColsSeq
+
+coding of procThirdCol is almost identical to procThirdRow, except for some detail below
+
+
+------------------
+      for ydx, y in np.ndenumerate(tarColBlocInd):
+        if (grid[y:y+1, curColsSeq[2]] == 0):
+	...
+------------------
+         ...grid[y:y+1, curColsSeq[2]]...
+is how traversing column done in numpy; syntax are as follow:
+------------------
+import numpy as np
+arr2D = np.array([[1,2,3], [4,5,6], [7,8,9]])
+------------------
+.
+testArr = arr2D[a:b, j]
+.
+on col_index=j, select row_index=a to row_index=(b-1);
+if b is not given, selection is to the last row
+
+
+------------------
+          dummyRow = grid[tarColBlocInd[z],]
+------------------
+another differences
+
+
+------------------
+        grid[tarColBlocInd[np.where(colBlocElement == 0)[0][0]], curColsSeq[2]] = i
+------------------
+when there is a single vacant in colBlocElement; meaning:
+[0,1,1] or [1,0,1] or [1,1,0]
+then current iterated value in intersected values array is the value for that vacant spot
+.
+np.where(colBlocElement == 0)[0]
+= an array of indices where 0 value is found in rowBlocElement array
+.
+np.where(colBlocElement == 0)[0][0]
+= value of first indices where 0 value is found in rowBlocElement array
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

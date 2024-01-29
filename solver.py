@@ -123,9 +123,17 @@ def colsComp(grid):
         else:
           colBlocElement[ydx[0]] = 1
 
+      # when 2_or_3 vacant occurred in colBlocElement 
+      dummyCBE = colBlocElement
+      if (np.where(dummyCBE == 0)[0].size >= 2):
+        for z in np.where(dummyCBE == 0)[0]:
+          dummyRow = grid[tarColBlocInd[z],]
+          for a in dummyRow:
+            if (a == i):
+              colBlocElement[z] = 1
+
       # when single vacant occurred in colBlocElement 
       if (np.where(colBlocElement == 0)[0].size == 1):
-        # grid[curColsSeq[2], tarColBlocInd[np.where(colBlocElement == 0)[0][0]]] = i
         grid[tarColBlocInd[np.where(colBlocElement == 0)[0][0]], curColsSeq[2]] = i
 
 
