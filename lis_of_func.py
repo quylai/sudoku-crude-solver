@@ -1,6 +1,19 @@
 import numpy as np
 
 
+#---------------------------------------------------------------------------------------
+#---------------------------------------------------------------------------------------
+# GLOBAL CONSTANTS
+
+LINES_SEQ = np.array([
+                    [0,1,2], [0,2,1], [1,2,0],
+                    [3,4,5], [3,5,4], [4,5,3],
+                    [6,7,8], [6,8,7], [7,8,6]
+])
+
+
+#---------------------------------------------------------------------------------------
+#---------------------------------------------------------------------------------------
 # notes annotated are based from written hard code, see notes:
 # "prtSudoku hardcode"
 # function: to print sudoku onto cmd line
@@ -132,15 +145,78 @@ def rowsComp(grid):
     return grid
 
   #--------------------------------------- begins processing in rowsComp
-  rowsSeq = np.array([
-                      [0,1,2], [0,2,1], [1,2,0],
-                      [3,4,5], [3,5,4], [4,5,3],
-                      [6,7,8], [6,8,7], [7,8,6]
-  ])
-
-  for i in rowsSeq:
+  for i in LINES_SEQ:
     inter_info = find_inter_coord(grid, i, 'r')
     procThirdRow(grid, inter_info, i)
   #--------------------------------------- ends processing in rowsComp
 
   return grid
+
+
+#---------------------------------------------------------------------------------------
+#---------------------------------------------------------------------------------------
+
+def colsComp(grid):
+
+  def procThirdCol(grid, info, curColsSeq):
+    # info[0] is intersected values array
+    # info[1] is intersected coordinates array
+
+    for idx, i in np.ndenumerate(info[0]):  # in intersected values
+      colBlocOccupy = np.array([0,0,0])  # flags
+
+      for j in info[1][idx]:  # in intersected coord
+        for k in range(9):  # flagging colBloc existed targeted number
+          if (j == k):
+            if (k in range(0,3)):
+              colBlocOccupy[0] = 1
+            elif (k in range(3,6)):
+              colBlocOccupy[1] = 1
+            elif (k in range(6,9)):
+              colBlocOccupy[2] = 1
+      
+      # assigning indices to targeted col block
+      for xdx, x in np.ndenumerate(colBlocOccupy):
+        if (x == 0):
+          if (xdx[0] == 0):
+            tarColBlocInd = np.array([0,1,2])
+          elif (xdx[0] == 1):
+            tarColBlocInd = np.array([3,4,5])
+          elif (xdx[0] == 2):
+            tarColBlocInd = np.array([6,7,8])
+
+      colBlocElement = np.array([8,8,8])  # initializing
+      # initial iteration thru target col block indices
+      # to note which element is vacant; 1=occupied 0=vacant
+      for ydx, y in np.ndenumerate(tarColBlocInd):
+        if (grid[y:y+1, curColsSeq[2]] == 0):
+          colBlocElement[ydx[0]] = 0
+        else:
+          colBlocElement[ydx[0]] = 1
+
+      # when 2_or_3 vacant occurred in colBlocElement 
+      dummyCBE = colBlocElement
+      if (np.where(dummyCBE == 0)[0].size >= 2):
+        for z in np.where(dummyCBE == 0)[0]:
+          dummyRow = grid[tarColBlocInd[z],]
+          for a in dummyRow:
+            if (a == i):
+              colBlocElement[z] = 1
+
+      # when single vacant occurred in colBlocElement 
+      if (np.where(colBlocElement == 0)[0].size == 1):
+        grid[tarColBlocInd[np.where(colBlocElement == 0)[0][0]], curColsSeq[2]] = i
+
+    return grid
+
+  #--------------------------------------- begins processing in colsComp
+  for i in LINES_SEQ:
+    inter_info = find_inter_coord(grid, i, 'c')
+    procThirdCol(grid, inter_info, i)
+  #--------------------------------------- ends processing in colsComp
+  
+  return grid
+
+
+
+
