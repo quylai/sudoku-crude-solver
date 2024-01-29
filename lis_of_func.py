@@ -227,3 +227,25 @@ def nCount(grid):  # counting all cells filled
         count += 1
 
   return 81-count
+
+
+#---------------------------------------------------------------------------------------
+#---------------------------------------------------------------------------------------
+def analyzeSeqs(grid, *seqsOfStr):
+
+  for aSeq in seqsOfStr:
+    gridProc = grid.copy()
+    gridInitNums = nCount(gridProc)
+    print("initially: " + str(gridInitNums), end='')
+
+    for x in aSeq:
+      if (x == 'r'):
+        gridProc = rowsComp(gridProc)
+      elif (x == 'c'):
+        gridProc = colsComp(gridProc)
+
+    print("; ran sequence " + aSeq + ", now " + str(nCount(gridProc)) +
+          "; solved " + str(nCount(gridProc)-gridInitNums))
+
+
+

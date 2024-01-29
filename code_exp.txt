@@ -115,9 +115,9 @@ Argument of grid is reduce to 1D array {oneline_sudoku}.  It is iterated thru fo
 ----------------------------------------------------------------------------------------
 function: find_inter_coord (find intersected coordinates)
 
-location: inside func rowsComp
+location: -
 args: grid, linesSeq, rowsOrCols
-constraint: definition listing needed to be b4 rowsComp and colsComp function
+constraint: definition listing needed to be b4 "rowsComp" and "colsComp" function
 
 
 - grid is 2D sudoku grid itself
@@ -354,20 +354,43 @@ np.where(colBlocElement == 0)[0][0]
 
 
 
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+function: nCount (numbers count)
+
+location: -
+args: grid
+constraint: definition listing needed to be b4 "analyzeSeqs" func
+
+this function simply counts how many cells have been filled
 
 
 
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+function: analyzeSeqs (numbers count)
 
+location: -
+args: grid, *seqsOfStr
+constraint: definition listing needed to be after "nCount", "rowsComp",
+	    and "colsComp" func
 
-
-
-
-
-
-
-
-
-
+------------------
+analyzeSeqs(grid, "rrrr", "cccc")
+------------------
+.
+give codes above, output:
+.
+------------------
+initially: 32; ran sequence rrrr, now 38; solved 6
+initially: 32; ran sequence cccc, now 36; solved 4
+------------------
+.
+1st line:
+    sudoku initially has 32 cells filled; rows comparison (rowsComp) ran 4 times,
+    now there are 38 cells filled; therefore 6 cells have been solved
+2nd line:
+    same verbiage; 'c' is cols comparison (colsComp)
 
 
 
