@@ -5,26 +5,23 @@ import lis_of_func as az
 # .
 # modify string using ascii codes to replace 46 (.) with 48 (0), then typecast it into a list of characters
 inputs = list(
-              "2.....43."
+
+              "......43."
               "..52..8.7"
               ".8.7....."
               ".3..48.5."#
-              ".4.67...2"#
+              ".4.6....2"#
               ".9..52.4."#
-              ".674...2."
+              ".6.4....."
               "..19..6.3"
-              "......574"
-              .translate({46: 48}))  
-              # "......43."
-              # "..52..8.7"
-              # ".8.7....."
-              # ".3..48.5."#
-              # ".4.6....2"#
-              # ".9..52.4."#
-              # ".6.4....."
-              # "..19..6.3"
-              # "......57."
-              # .translate({46: 48}))  ## original
+              "......57."
+              .translate({46: 48}))  ## original
+
+# "96.8....5.5.92..46....1.......6.2.81.82.3.57.14.7.5.......5....71..49.5.2....8.34" #5R
+# "...19.....29.54.6...7...93..5.7.2..347.....926..9.5.7..31...2...6.42.18.....61..." #5R
+# ".57.3......1..9..5..8.45217.83.5....7.42.19.3....6.74.47652.1..1..7..4......1.57." #6R
+# ".6..8..4.9..12.6.7.819..2........83.41.....69.95........6..917.1.2.54..8.3..1..2." #7R
+# "...9.3.....38274...2.....8.26.4.1.79.7.....5.13.5.2.64.8.....9...41692.....7.8..." #7R
 
 # for visual
 #
@@ -71,14 +68,58 @@ inputs = list(
 
 # create a 1D array from list (inputs), then reshape it into 9x9 array
 grid = np.array(inputs, dtype=int).reshape(9,9)
-# az.prtSudoku(grid)  ##
+az.prtSudoku(grid)  ##
 
 
+def colsComp(grid):
+  print("in colsComp")  ##
 
+  def find_inter_coord(grid, curColsSeq):
+    print("in find_inter_coord")
+    # grid[:, curColsSeq[0]] is colA
+    # grid[:, curColsSeq[1]] is colB
+    # grid[:, curColsSeq[2]] is colC
+
+    print(grid[:, curColsSeq[0]])
+    print(grid[:, curColsSeq[1]])
+    print(grid[:, curColsSeq[2]])
+
+
+    return
+    # return inter_val, inter_val_coord
+
+  #--------------------------------------- begins processing in colsComp
+  colsSeq = np.array([
+                      [0,1,2], [0,2,1], [1,2,0],
+                      [3,4,5], [3,5,4], [4,5,3],
+                      [6,7,8], [6,8,7], [7,8,6]
+  ])
+
+
+  for i in colsSeq:
+    inter_info = find_inter_coord(grid, i)
+
+  #--------------------------------------- ends processing in colsComp
   
-#--------------------------------------- processing in main
-az.rowsComp(grid)
-az.prtSudoku(grid)
-#---------------------------------------
+  return grid
+
+
+
+
+
+
+
+#--------------------------------------- begins processing in main
+
+grid = colsComp(grid)
+
+
+# grid = az.rowsComp(grid)
+# grid = az.rowsComp(grid)
+# grid = az.rowsComp(grid)
+# grid = az.rowsComp(grid)
+# print("----------------------------------------")
+# az.prtSudoku(grid)
+#--------------------------------------- ends processing in main
 
 #---------------------------------------------------------------------------------------

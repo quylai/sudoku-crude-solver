@@ -124,7 +124,7 @@ def rowsComp(grid):
 
     return grid
 
-  #--------------------------------------- processings section
+  #--------------------------------------- begins processing in rowsComp
   rowsSeq = np.array([
                       [0,1,2], [0,2,1], [1,2,0],
                       [3,4,5], [3,5,4], [4,5,3],
@@ -134,6 +134,6 @@ def rowsComp(grid):
   for i in rowsSeq:
     inter_info = find_inter_coord(grid, i)
     procThird(grid, inter_info, i)
-  #---------------------------------------
+  #--------------------------------------- ends processing in rowsComp
 
   return grid
