@@ -5,8 +5,7 @@ import lis_of_func as az
 # .
 # modify string using ascii codes to replace 46 (.) with 48 (0), then typecast it into a list of characters
 inputs = list(
-
-".6..8..4.9..12.6.7.819..2........83.41.....69.95........6..917.1.2.54..8.3..1..2."
+"...9.3.....38274...2.....8.26.4.1.79.7.....5.13.5.2.64.8.....9...41692.....7.8..."
               .translate({46: 48}))  
   
               # "...9.3..."
@@ -22,9 +21,9 @@ inputs = list(
 
 
 # ".6..8..4.9..12.6.7.819..2........83.41.....69.95........6..917.1.2.54..8.3..1..2."
-#### 7# w/ rrrr; 4# w/ cccc; 15# w/ rcrcrcrc
+#### 6# w/ rrrr; 4# w/ cccc; 15# w/ rcrcrcrc
 # "...9.3.....38274...2.....8.26.4.1.79.7.....5.13.5.2.64.8.....9...41692.....7.8..."
-#### 7# w/ rrrr; 4# w/ cccc;
+#### 7# w/ rrrr; 7# w/ cccc; 19# w/ rcrcrcrc
 
 # for visual
 #
@@ -69,23 +68,16 @@ inputs = list(
 # 9|     |     |     |
 #  -------------------
 
+
+
 # create a 1D array from list (inputs), then reshape it into 9x9 array
 grid = np.array(inputs, dtype=int).reshape(9,9)
-az.prtSudoku(grid)  ##
-
-
-
-
-
-
-
+# az.prtSudoku(grid)  ##
+print(str(az.nCount(grid)) + " numbers")  ##
 
 
 #--------------------------------------- begins processing in main
 
-
-
-
 # grid = az.rowsComp(grid)
 # grid = az.rowsComp(grid)
 # grid = az.rowsComp(grid)
@@ -106,10 +98,10 @@ grid = az.rowsComp(grid)
 grid = az.colsComp(grid)
 
 
+print("----------------------------------------")  ##
+# az.prtSudoku(grid)  ##
+print(str(az.nCount(grid)) + " numbers")  ##
 
-
-print("----------------------------------------")
-az.prtSudoku(grid)
 #--------------------------------------- ends processing in main
 
 #---------------------------------------------------------------------------------------

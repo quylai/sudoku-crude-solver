@@ -1,14 +1,10 @@
 import numpy as np
 
 
+charary = np.chararray((4, 5))
+print(charary)
+print("----")
 
-arr = np.array([[1,2,3],[4,5,6],[7,8,9]])
+charary = np.chararray(charary.shape, itemsize=7)
+print(charary)
 
-# tarr = arr[1:3, 1]  ## [5,8]
-tarr = arr[1:, 1]  ## [5,8]
-
-
-
-# tarr = arr[1][2]
-
-print(tarr)
