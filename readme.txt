@@ -39,22 +39,58 @@ Labeling
 
 ------------------
 Cells
+
 any single space in sudoku grid
+
 
 ------------------
 Row Block
+
 part of a row that is segmented by the block
 e.g. [a1 to c1] or [d5 to f5] ...
+
 
 ------------------
 Rows
 
-a1 to i1   :	rowTopTop		rtt
-a2 to i2   :	rowTopCenter		rtc
-a3 to i3   :	rowTopBottom		rtb
-a6 to i6   :	rowMiddleBottom		rmb
-a9 to i9   :	rowBottomBottom		rbb
+a1 to i1
+ .     . 
+ .     . 
+ .     . 
+a9 to i9
 
+
+------------------
+Cols
+
+a1 to a9
+.     . 
+.     . 
+.     . 
+i9 to i9
+
+
+------------------
+Boxes
+
+a1 to c3  or  d1 to f3  or  g1 to i3
+a4 to c6  or  d4 to f6  or  g4 to i6
+a7 to c9  or  d7 to f9  or  g7 to i9
+
+  a b c d e f g h i
+ -------------------
+1|     |     |     |
+2|  0  |  1  |  2  |
+3|     |     |     |
+ -------------------
+4|     |     |     |
+5|  3  |  4  |  5  |
+6|     |     |     |
+ -------------------
+7|     |     |     |
+8|  6  |  7  |  8  |
+9|     |     |     |
+ -------------------
 
 
 
@@ -62,12 +98,8 @@ a9 to i9   :	rowBottomBottom		rbb
 ----------------------------------------------------------------------------------------
 Methodologies
 
-
 ----------------------------------------
 Rows comparison
-
-------------------
-Top segment
 
 - compare row1 and row2 for intersection values
 
@@ -82,26 +114,39 @@ Top segment
 - evaluate next inter_val
 
 
+----------------------------------------
+Cols comparison
 
-
-
-
-
+- apply same process as rows-comparison, but use columns instead
 
 
 ----------------------------------------
-crosshair
-.
-checking if number exist on row/column of current element
+Single candidates
 
+refer to site below, at section "Searching for Single Candidates"
+https://www.conceptispuzzles.com/index.aspx?uri=puzzle/sudoku/techniques
 
-----------------------------------------
-same # exist in 2/3 box
-.
-get tl to intersect with tm;
-save the index of intersection;
-manipulate tr
+given initial sudoku:
 
+   a b c d e f g h i
+  -------------------
+1 |     |1   4|     |
+2 |    1|     |9    |
+3 |  9  |7   3|  6  |
+  -------------------
+4 |8   7|     |1   6|
+5 |     |     |     |
+6 |3   4|     |5   9|
+  -------------------
+7 |  5  |4   2|  3  |
+8 |    8|     |6    |
+9 |     |8   6|     |
+  -------------------
+
+"...1.4.....1...9...9.7.3.6.8.7...1.6.........3.4...5.9.5.4.2.3...8...6.....8.6..."
+
+observe at (b4); after eliminate all those from box, row, and col;
+(b4) is left with numerical '2'
 
 
 ----------------------------------------------------------------------------------------

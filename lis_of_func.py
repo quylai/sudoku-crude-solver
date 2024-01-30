@@ -130,7 +130,7 @@ def rowsComp(grid):
           rowBlocElement[ydx[0]] = 1
       
       # when 2_or_3 vacant occurred in rowBlocElement 
-      dummyRBE = rowBlocElement
+      dummyRBE = rowBlocElement.copy()
       if (np.where(dummyRBE == 0)[0].size >= 2):
         for z in np.where(dummyRBE == 0)[0]:
           dummyCol = grid[:, tarRowBlocInd[z]]
@@ -194,7 +194,7 @@ def colsComp(grid):
           colBlocElement[ydx[0]] = 1
 
       # when 2_or_3 vacant occurred in colBlocElement 
-      dummyCBE = colBlocElement
+      dummyCBE = colBlocElement.copy()
       if (np.where(dummyCBE == 0)[0].size >= 2):
         for z in np.where(dummyCBE == 0)[0]:
           dummyRow = grid[tarColBlocInd[z],]

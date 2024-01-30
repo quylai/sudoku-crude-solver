@@ -117,7 +117,8 @@ function: find_inter_coord (find intersected coordinates)
 
 location: -
 args: grid, linesSeq, rowsOrCols
-constraint: definition listing needed to be b4 "rowsComp" and "colsComp" function
+constraint: definition listing needed to be b4 func:
+	    "rowsComp", "colsComp", "nCount", and "analyzeSeqs"
 
 
 - grid is 2D sudoku grid itself
@@ -251,7 +252,7 @@ scanning tarRowBlocInd, flagging 1=occupied or 0=vacant, onto rowBlocElement
 
 
 ----------------------------------------
-      dummyRBE = rowBlocElement
+      dummyRBE = rowBlocElement.copy()
       if (np.where(dummyRBE == 0)[0].size >= 2):
         for z in np.where(dummyRBE == 0)[0]:
           dummyCol = grid[:, tarRowBlocInd[z]]
@@ -351,6 +352,42 @@ np.where(colBlocElement == 0)[0]
 .
 np.where(colBlocElement == 0)[0][0]
 = value of first indices where 0 value is found in rowBlocElement array
+
+
+
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+function: singCand (single candidate)
+
+location: -
+args: grid
+constraint: definition listing needed to be, 
+	    after func:
+	    "rowsComp" and "colsComp",
+            before:
+            "nCount" and "analyzeSeqs"
+
+------------------
+boxVects
+is an array of 9-by-4, contain boxes vetors value to partition grid into boxes;
+.
+example:
+boxVects[0,] has [0 3 0 3], apply those values to grid array like so
+.
+grid[0:3, 0:3]
+now, that is the definition of "box0"
+
+
+------------------
+viaBoxes
+is an array of flags, denoting which box is viable for single-candidate processing;
+.
+respective box would be flag 1, if the box has >= 4 cells 
+
+
+
+
+
 
 
 
