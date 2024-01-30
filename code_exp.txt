@@ -379,16 +379,21 @@ now, that is the definition of "box0"
 
 
 ------------------
-viaBoxes
-is an array of flags, denoting which box is viable for single-candidate processing;
+scanBox
+an array of current box
+
+
+#-----------------
+    numInBox = 0
+    for y in scanBox.flat:
+      if (y > 0):
+        numInBox += 1
+      if (numInBox >= 4):                          
+        break
+#-----------------
+numInBox, keeps count of how many cell solved in that box
 .
-respective box would be flag 1, if the box has >= 4 cells 
-
-
-
-
-
-
+when box determined to have 4 >= cell solved, break, to go on processing current box
 
 
 ----------------------------------------------------------------------------------------

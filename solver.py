@@ -67,30 +67,32 @@ def singCand(grid):
   boxVects = np.array([[0,3,0,3], [0,3,3,6], [0,3,6,9],
                        [3,6,0,3], [3,6,3,6], [3,6,6,9],
                        [6,9,0,3], [6,9,3,6], [6,9,6,9]])
-  viaBoxes = np.array([0,0,0,0,0,0,0,0,0])
+
 
   # box0 is grid[0:3, 0:3]
   # box4 is grid[3:6, 3:6]
 
-  # scanning each box, if numInBox >= 4, then flag in array viaBoxes
-  dummy = viaBoxes.copy()
-  for xdx, x in np.ndenumerate(dummy):
+  # scanning each box, if numInBox >= 4, then process that box
+  for x in range(9):
 
-    a = boxVects[xdx][0].copy()
-    b = boxVects[xdx][1].copy()
-    c = boxVects[xdx][2].copy()
-    d = boxVects[xdx][3].copy()
+    a = boxVects[x][0].copy()
+    b = boxVects[x][1].copy()
+    c = boxVects[x][2].copy()
+    d = boxVects[x][3].copy()
     scanBox = grid[a:b, c:d]
 
     numInBox = 0
     for y in scanBox.flat:
       if (y > 0):
         numInBox += 1
-      if (numInBox >= 4):
-        viaBoxes[xdx] = 1                            
+      if (numInBox >= 4):                          
         break
+    
+    # print(numInBox)
 
-  # print(viaBoxes)  ##
+  
+
+
 
 
 
@@ -123,5 +125,8 @@ testSingCand = singCand(grid)
 #--------------------------------------- ends processing in main
 
 #---------------------------------------------------------------------------------------
-# need to iterate thru each boxes to flags (1) those boxes that has >= 4 elements
+# git commit -m
+# 
+# 
+# 
 #---------------------------------------------------------------------------------------
