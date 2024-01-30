@@ -11,7 +11,22 @@ import numpy as np
 #                 [3,6,0,3], [3,6,3,6], [3,6,6,9],
 #                 [6,9,0,3], [6,9,3,6], [6,9,6,9]])
 
+
+
+# box0 = np.array([(1, 2), (3, 4)], dtype=object)
+# box0 = np.array([(1, 2), (3, 4)])
+
 # print(arr.shape)
 
-for i in range(9):
-  print(i)
+# for idx, i in np.ndenumerate(a):
+#   if (i == 4):
+#     print(type(idx))
+
+# print(box0[1,0])
+# print(type(box0[1,0]))
+# print(np.where(box0 == (0,0))[0])
+
+
+
+# testing = coordBoxToGrid(3, (0,1))
+# print(testing)

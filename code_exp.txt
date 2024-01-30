@@ -357,15 +357,40 @@ np.where(colBlocElement == 0)[0][0]
 
 ----------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------
+function: coordBoxToGrid (coordinates from box to grid)
+
+location: in func "singCand"
+args: boxNum, boxCoord
+constraint: -
+
+------------------
+boxNum is box number
+.
+boxCoord is box coordinate, coming in the form of tuple data type
+
+
+------------------
+simply put, box0-box8 are the mapping of its 3-by-3 array onto grid array; the func takes in box number and its coordinates then return grid coordinate
+
+
+#-----------------
+    return gridCoord
+#-----------------
+gridCoord is used in function singCand to call on row/col crossed at said cells
+
+
+
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
 function: singCand (single candidate)
 
 location: -
 args: grid
 constraint: definition listing needed to be, 
-	    after func:
-	    "rowsComp" and "colsComp",
+            after func:
+              "rowsComp" and "colsComp",
             before:
-            "nCount" and "analyzeSeqs"
+              "nCount" and "analyzeSeqs"
 
 ------------------
 boxVects

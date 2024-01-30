@@ -64,6 +64,64 @@ grid = np.array(inputs, dtype=int).reshape(9,9)
 
 def singCand(grid):
 
+  def coordBoxToGrid(boxNum, boxCoord):
+    box0 = np.array([[(0,0), (0,1), (0,2)], 
+                     [(1,0), (1,1), (1,2)], 
+                     [(2,0), (2,1), (2,2)]])
+
+    box1 = np.array([[(0,3), (0,4), (0,5)], 
+                     [(1,3), (1,4), (1,5)], 
+                     [(2,3), (2,4), (2,5)]])
+
+    box2 = np.array([[(0,6), (0,7), (0,8)], 
+                     [(1,6), (1,7), (1,8)], 
+                     [(2,6), (2,7), (2,8)]])
+    
+    box3 = np.array([[(3,0), (3,1), (3,2)], 
+                     [(4,0), (4,1), (4,2)], 
+                     [(5,0), (5,1), (5,2)]])
+    
+    box4 = np.array([[(3,3), (3,4), (3,5)], 
+                     [(4,3), (4,4), (4,5)], 
+                     [(5,3), (5,4), (5,5)]])
+    
+    box5 = np.array([[(3,6), (3,7), (3,8)], 
+                     [(4,6), (4,7), (4,8)], 
+                     [(5,6), (5,7), (5,8)]])
+    
+    box6 = np.array([[(6,0), (6,1), (6,2)], 
+                     [(7,0), (7,1), (7,2)], 
+                     [(8,0), (8,1), (8,2)]])
+    
+    box7 = np.array([[(6,3), (6,4), (6,5)], 
+                     [(7,3), (7,4), (7,5)], 
+                     [(8,3), (8,4), (8,5)]])
+    
+    box8 = np.array([[(6,6), (6,7), (6,8)], 
+                     [(7,6), (7,7), (7,8)], 
+                     [(8,6), (8,7), (8,8)]])
+
+    if (boxNum == 0):
+      gridCoord = box0[boxCoord[0], boxCoord[1]]
+    elif (boxNum == 1):
+      gridCoord = box1[boxCoord[0], boxCoord[1]]
+    elif (boxNum == 2):
+      gridCoord = box2[boxCoord[0], boxCoord[1]]
+    elif (boxNum == 3):
+      gridCoord = box3[boxCoord[0], boxCoord[1]]
+    elif (boxNum == 4):
+      gridCoord = box4[boxCoord[0], boxCoord[1]]
+    elif (boxNum == 5):
+      gridCoord = box5[boxCoord[0], boxCoord[1]]
+    elif (boxNum == 6):
+      gridCoord = box6[boxCoord[0], boxCoord[1]]
+    elif (boxNum == 7):
+      gridCoord = box7[boxCoord[0], boxCoord[1]]
+    elif (boxNum == 8):
+      gridCoord = box8[boxCoord[0], boxCoord[1]]
+
+    return gridCoord
+
   boxVects = np.array([[0,3,0,3], [0,3,3,6], [0,3,6,9],
                        [3,6,0,3], [3,6,3,6], [3,6,6,9],
                        [6,9,0,3], [6,9,3,6], [6,9,6,9]])
@@ -74,7 +132,6 @@ def singCand(grid):
 
   # scanning each box, if numInBox >= 4, then process that box
   for x in range(9):
-
     a = boxVects[x][0].copy()
     b = boxVects[x][1].copy()
     c = boxVects[x][2].copy()
@@ -85,10 +142,21 @@ def singCand(grid):
     for y in scanBox.flat:
       if (y > 0):
         numInBox += 1
-      if (numInBox >= 4):                          
+      if (numInBox == 4):                          
         break
-    
-    # print(numInBox)
+
+    # possCand = np.array([1,2,3,4,5,6,7,8,9])
+
+    if (numInBox == 4):
+      print(scanBox)  ##
+
+      for zdx, z in np.ndenumerate(scanBox):
+        if (z == 0):
+          gridCoord = coordBoxToGrid(x, zdx)
+
+          print(gridCoord)
+          # print("----")
+          # print(zdx)
 
   
 
@@ -101,7 +169,7 @@ def singCand(grid):
 
 
 
-    # print(scanBox)
+
 
 
 
@@ -130,3 +198,5 @@ testSingCand = singCand(grid)
 # 
 # 
 #---------------------------------------------------------------------------------------
+
+
