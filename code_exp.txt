@@ -2,6 +2,27 @@
 ----------------------------------------
 ----------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------
+GLOBAL CONSTANTS
+
+------------------
+LINES_SEQ (lines sequence)
+used in rowsComp and colsComp function
+
+
+------------------
+BOX_VECTS
+used in singCand function
+
+this is an array of 9-by-4, contain rows of values to partition grid into boxes
+.
+example:
+boxVects[0,] has [0 3 0 3], apply those values to grid array like so
+.
+grid[0:3, 0:3]
+now, that is the definition of "box0"
+
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
 prtSudoku hardcode
 
 i=0
@@ -308,6 +329,19 @@ np.where(rowBlocElement == 0)[0][0]
 
 ----------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------
+function: rowsComp (rows comparison)
+
+location: -
+args: grid
+constraint: placed, after: prtSudoku, find_inter_coord
+                   before: colsComp
+
+majority of this function is procThirdRow function resided inside; see "procThirdRow" for details
+
+
+
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
 function: procThirdCol (processing third col)
 
 location: inside func colsComp
@@ -382,25 +416,65 @@ gridCoord is used in function singCand to call on row/col crossed at said cells
 
 ----------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------
+functino: coordBoxToGrid
+
+location: -
+args: boxNum, boxCoord
+constraint: definition listing needed to be, 
+                 after: "rowsComp" and "colsComp",
+                before: "singCand"
+
+------------------
+boxNum
+box number currently at
+numbering are as follow:
+ -------------------
+ |     |     |     |
+ |  0  |  1  |  2  |
+ |     |     |     |
+ -------------------
+ |     |     |     |
+ |  3  |  4  |  5  |
+ |     |     |     |
+ -------------------
+ |     |     |     |
+ |  6  |  7  |  8  |
+ |     |     |     |
+ -------------------
+
+
+------------------
+boxCoord
+local coordinates of cell at current box
+.
+such that if box 3 would have indices as:
+ -------------------
+ |     |     |     |
+ |     |     |     |
+ |     |     |     |
+ -------------------
+ |0 1 2|     |     |
+ |3 4 5|     |     |
+ |6 7 8|     |     |
+ -------------------
+ |     |     |     |
+ |     |     |     |
+ |     |     |     |
+ -------------------
+
+
+
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
 function: singCand (single candidate)
 
 location: -
 args: grid
 constraint: definition listing needed to be, 
-            after func:
-              "rowsComp" and "colsComp",
-            before:
-              "nCount" and "analyzeSeqs"
+                 after: "coordBoxToGrid"
+                before: "nCount" and "analyzeSeqs"
 
-------------------
-boxVects
-is an array of 9-by-4, contain rows of values to partion grid into boxes
-.
-example:
-boxVects[0,] has [0 3 0 3], apply those values to grid array like so
-.
-grid[0:3, 0:3]
-now, that is the definition of "box0"
+note that this function only process boxes with at least 4 solved
 
 
 ------------------

@@ -5,11 +5,13 @@ import numpy as np
 #---------------------------------------------------------------------------------------
 # GLOBAL CONSTANTS
 
-LINES_SEQ = np.array([
-                    [0,1,2], [0,2,1], [1,2,0],
-                    [3,4,5], [3,5,4], [4,5,3],
-                    [6,7,8], [6,8,7], [7,8,6]
-])
+LINES_SEQ = np.array([[0,1,2], [0,2,1], [1,2,0],
+                      [3,4,5], [3,5,4], [4,5,3],
+                      [6,7,8], [6,8,7], [7,8,6]])
+
+BOX_VECTS = np.array([[0,3,0,3], [0,3,3,6], [0,3,6,9],
+                       [3,6,0,3], [3,6,3,6], [3,6,6,9],
+                       [6,9,0,3], [6,9,3,6], [6,9,6,9]])
 
 
 #---------------------------------------------------------------------------------------
@@ -279,21 +281,15 @@ def singCand(grid):
 
     return gridCoord
 
-  boxVects = np.array([
-
-                       [0,3,0,3], [0,3,3,6], [0,3,6,9],
-                       [3,6,0,3], [3,6,3,6], [3,6,6,9],
-                       [6,9,0,3], [6,9,3,6], [6,9,6,9]])
-
   # keep in mind:
   # box0 is grid[0:3, 0:3]
   # box4 is grid[3:6, 3:6]
 
   for x in range(9):  # iterate thru boxes
-    a = boxVects[x][0].copy()
-    b = boxVects[x][1].copy()
-    c = boxVects[x][2].copy()
-    d = boxVects[x][3].copy()
+    a = BOX_VECTS[x][0].copy()
+    b = BOX_VECTS[x][1].copy()
+    c = BOX_VECTS[x][2].copy()
+    d = BOX_VECTS[x][3].copy()
     scanBox = grid[a:b, c:d]
 
     numInBox = 0
@@ -336,7 +332,7 @@ def singCand(grid):
           if (np.nonzero(dummyPC)[0].size == 1):
             grid[gridCoord[0], gridCoord[1]] = dummyPC[np.nonzero(dummyPC)[0][0]]
 
-  return grid  # return from singCand
+  return grid 
 
 
 #---------------------------------------------------------------------------------------

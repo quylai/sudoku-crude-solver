@@ -5,7 +5,7 @@ import lis_of_func as az
 # .
 # modify string using ascii codes to replace 46 (.) with 48 (0), then typecast it into a list of characters
 inputs = list(
-"...1.4.....1...9...9.7.3.6.8.7...1.6.........3.4...5.9.5.4.2.3...8...6.....8.6..."
+".6..8..4.9..12.6.7.819..2........83.41.....69.95........6..917.1.2.54..8.3..1..2."
               .translate({46: 48}))  
   
 # "...1.4..."
@@ -21,12 +21,15 @@ inputs = list(
 
 
 # ".6..8..4.9..12.6.7.819..2........83.41.....69.95........6..917.1.2.54..8.3..1..2."
-#### 6# w/ rrrr; 4# w/ cccc; 15# w/ rcrcrcrc
+####  6# - r;    4# - c;    15# - rcrc;  49# - rcsrcsrcsrcs
+
 # "...9.3.....38274...2.....8.26.4.1.79.7.....5.13.5.2.64.8.....9...41692.....7.8..."
-#### 7# w/ rrrr; 7# w/ cccc; 19# w/ rcrcrcrc
+####  7# - rr;   7# - cc;   17# - rcrc   25# - rcsrcs
 
 # "...1.4.....1...9...9.7.3.6.8.7...1.6.........3.4...5.9.5.4.2.3...8...6.....8.6..."
-#### 2# w/ rrrr; 0# w/ cccc; 5# w/ rcsrcsrcs;
+####  2# - r;    0# - c;    2# - rc      5# - rcsrcs;
+####  ---------- ---------- ------------  
+
 
 # for visual
 #
@@ -68,8 +71,8 @@ az.prtSudoku(grid)  ##
 
 
 # r=rowsComp, c=colsComp, s=singCand
-# az.analyzeSeqs(grid, "rrrr", "cccc", "rcrcrcrc")
-az.analyzeSeqs(grid, "rcsrcsrcs")
+az.analyzeSeqs(grid, "rc", "rcrc", "rcsrcsrcsrcs", "", "")
+
 
 
 print("----------------------------------------")  ##
