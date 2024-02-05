@@ -122,7 +122,9 @@ def singCand(grid):
 
     return gridCoord
 
-  boxVects = np.array([[0,3,0,3], [0,3,3,6], [0,3,6,9],
+  boxVects = np.array([
+
+                       [0,3,0,3], [0,3,3,6], [0,3,6,9],
                        [3,6,0,3], [3,6,3,6], [3,6,6,9],
                        [6,9,0,3], [6,9,3,6], [6,9,6,9]])
 
@@ -130,8 +132,8 @@ def singCand(grid):
   # box0 is grid[0:3, 0:3]
   # box4 is grid[3:6, 3:6]
 
-  # scanning each box, if numInBox >= 4, then process that box
-  for x in range(9):
+
+  for x in range(9):  # iterate thru boxes
     a = boxVects[x][0].copy()
     b = boxVects[x][1].copy()
     c = boxVects[x][2].copy()
@@ -139,24 +141,37 @@ def singCand(grid):
     scanBox = grid[a:b, c:d]
 
     numInBox = 0
-    for y in scanBox.flat:
+    for y in scanBox.flat:  # counting cells solved of current box
       if (y > 0):
         numInBox += 1
       if (numInBox == 4):                          
         break
 
-    # possCand = np.array([1,2,3,4,5,6,7,8,9])
-
-    if (numInBox == 4):
+    if (numInBox == 4):  # processing current box w/ 4>= cells solved
       print(scanBox)  ##
 
+      possCand = np.array([1,2,3,4,5,6,7,8,9])
+
+
+      # eliminating number already exist in box from possCand
+      for a in scanBox.flat:
+        if (a != 0):
+          possCand[np.where(possCand == a)[0][0]] = 0
+
+
+      # iterating cells of current viable box
       for zdx, z in np.ndenumerate(scanBox):
         if (z == 0):
           gridCoord = coordBoxToGrid(x, zdx)
 
-          print(gridCoord)
-          # print("----")
-          # print(zdx)
+          print(gridCoord)  ##
+
+
+
+
+
+
+  return grid  # return from singCand
 
   
 

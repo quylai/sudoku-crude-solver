@@ -394,7 +394,7 @@ constraint: definition listing needed to be,
 
 ------------------
 boxVects
-is an array of 9-by-4, contain boxes vetors value to partition grid into boxes;
+is an array of 9-by-4, contain rows of values to partion grid into boxes
 .
 example:
 boxVects[0,] has [0 3 0 3], apply those values to grid array like so
@@ -419,6 +419,25 @@ an array of current box
 numInBox, keeps count of how many cell solved in that box
 .
 when box determined to have 4 >= cell solved, break, to go on processing current box
+
+
+#-----------------
+      possCand = np.array([1,2,3,4,5,6,7,8,9])
+#-----------------
+this array contains possible candidates for that particular cell; the elements will gradually be replaced with 0 indicatings that it already exist in box/row/col relative to current cell being analyzed 
+
+
+#-----------------
+      for a in scanBox.flat:
+        if (a != 0):
+          possCand[np.where(possCand == a)[0][0]] = 0
+#-----------------
+replace those number already existed in box with 0 in array possCand
+
+
+
+
+
 
 
 ----------------------------------------------------------------------------------------

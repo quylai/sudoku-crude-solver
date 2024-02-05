@@ -99,6 +99,7 @@ a7 to c9  or  d7 to f9  or  g7 to i9
 Methodologies
 
 ----------------------------------------
+----------------------------------------
 Rows comparison
 
 - compare row1 and row2 for intersection values
@@ -115,11 +116,13 @@ Rows comparison
 
 
 ----------------------------------------
+----------------------------------------
 Cols comparison
 
 - apply same process as rows-comparison, but use columns instead
 
 
+----------------------------------------
 ----------------------------------------
 Single candidates
 
