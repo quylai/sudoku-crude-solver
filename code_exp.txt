@@ -476,6 +476,17 @@ constraint: definition listing needed to be,
 
 note that this function only process boxes with at least 4 solved
 
+#-----------------
+  for x in range(9):  # iterate thru boxes
+    a = BOX_VECTS[x][0].copy()
+    b = BOX_VECTS[x][1].copy()
+    c = BOX_VECTS[x][2].copy()
+    d = BOX_VECTS[x][3].copy()
+#-----------------
+note that:
+box0 is grid[0:3, 0:3]
+box4 is grid[3:6, 3:6]
+
 
 ------------------
 scanBox
