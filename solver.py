@@ -60,7 +60,7 @@ inputs = list(
 
 # create a 1D array from list (inputs), then reshape it into 9x9 array
 grid = np.array(inputs, dtype=int).reshape(9,9)
-# az.prtSudoku(grid)  ##
+az.prtSudoku(grid)  ##
 
 def singCand(grid):
 
@@ -128,10 +128,9 @@ def singCand(grid):
                        [3,6,0,3], [3,6,3,6], [3,6,6,9],
                        [6,9,0,3], [6,9,3,6], [6,9,6,9]])
 
-
+  # keep in mind:
   # box0 is grid[0:3, 0:3]
   # box4 is grid[3:6, 3:6]
-
 
   for x in range(9):  # iterate thru boxes
     a = boxVects[x][0].copy()
@@ -152,7 +151,6 @@ def singCand(grid):
 
       possCand = np.array([1,2,3,4,5,6,7,8,9])
 
-
       # eliminating number already exist in box from possCand
       for a in scanBox.flat:
         if (a != 0):
@@ -161,13 +159,34 @@ def singCand(grid):
 
       # iterating cells of current viable box
       for zdx, z in np.ndenumerate(scanBox):
+        dummyPC = possCand.copy()
+
         if (z == 0):
           gridCoord = coordBoxToGrid(x, zdx)
-
           print(gridCoord)  ##
+          print("pC bf " + str(dummyPC))
+
+          row = grid[gridCoord[0],]
+          col = grid[:, gridCoord[1]]
+
+          # eliminating number already exist in row from possCand
+          for b in row:
+            if (b != 0 and np.where(dummyPC == b)[0].size != 0):
+              dummyPC[np.where(dummyPC == b)[0][0]] = 0
+
+          # eliminating number already exist in col from possCand
+          for c in col:
+            if (c != 0 and np.where(dummyPC == c)[0].size != 0):
+              dummyPC[np.where(dummyPC == c)[0][0]] = 0
 
 
 
+          # when sole non-zero exist in possible-candiate array
+          if (np.nonzero(dummyPC)[0].size == 1):
+            print("-")
+            grid[gridCoord[0], gridCoord[1]] = dummyPC[np.nonzero(dummyPC)[0][0]]
+
+          print("pC af " + str(dummyPC))  ##
 
 
 
@@ -203,7 +222,7 @@ testSingCand = singCand(grid)
 # az.analyzeSeqs(grid, "rrrr", "cccc", "rcrcrcrc")
 
 # print("----------------------------------------")  ##
-# az.prtSudoku(grid)  ##
+az.prtSudoku(grid)  ##
 
 #--------------------------------------- ends processing in main
 

@@ -49,6 +49,8 @@ Row Block
 part of a row that is segmented by the block
 e.g. [a1 to c1] or [d5 to f5] ...
 
+similarly apply to "Col Block"
+
 
 ------------------
 Rows
@@ -150,6 +152,9 @@ given initial sudoku:
 
 observe at (b4); after eliminate all those from box, row, and col;
 (b4) is left with numerical '2'
+
+(h4) will also be solved with '4', after (b4) solved;
+this was noticed after the creation of function singCand
 
 
 ----------------------------------------------------------------------------------------
