@@ -466,7 +466,7 @@ such that if box 3 would have indices as:
 
 ----------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------
-function: boxSingCand (single candidate)
+function: boxSingCand (box single candidate)
 
 location: -
 args: grid
@@ -587,6 +587,82 @@ saying: search in array dummyPC with value of row-cell (b), at that index, repla
 using .nonzero method, scan thru dummyPC for a non-zero value, if the array size is 1 then dummyPC has only one non-zere value;
 .
 method .nonzero returns is similar to .where
+
+
+
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+function: arrBoxes (array boxes)
+
+location: -
+args: line, rowsOrCols
+constraint: definition listing needed to be, 
+                 after: "boxSingCand"
+                before: "hSingCand"
+
+------------------
+line
+current index of row or col
+.
+rowsOrCols
+evaluate for 'r' (rows) or 'c' (cols)
+
+
+#-----------------
+    if (line >= 0 and line < 3):
+      arrOfBoxes = np.append(arrOfBoxes, grid[0:3, 0:3].copy())
+      arrOfBoxes = np.append(arrOfBoxes, grid[0:3, 3:6].copy())
+      arrOfBoxes = np.append(arrOfBoxes, grid[0:3, 6:9].copy()).reshape(3,9)
+
+    elif (line >= 3 and line < 6):
+      arrOfBoxes = np.append(arrOfBoxes, grid[3:6, 0:3].copy())
+      arrOfBoxes = np.append(arrOfBoxes, grid[3:6, 3:6].copy())
+      arrOfBoxes = np.append(arrOfBoxes, grid[3:6, 6:9].copy()).reshape(3,9)
+
+    elif (line >= 6 and line < 9):
+      arrOfBoxes = np.append(arrOfBoxes, grid[6:9, 0:3].copy())
+      arrOfBoxes = np.append(arrOfBoxes, grid[6:9, 3:6].copy())
+      arrOfBoxes = np.append(arrOfBoxes, grid[6:9, 6:9].copy()).reshape(3,9)
+#-----------------
+with respect to row, appending relevant boxes to array arrOfBoxes then reshape to 3-by-9
+
+
+
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+function: hSingCand (horizontal single candidate)
+
+location: -
+args: grid
+constraint: definition listing needed to be, 
+                 after: "arrBoxes"
+                before: "nCount" and "analyzeSeqs"
+
+#-----------------
+  for x in range(9):
+#-----------------
+iterating thru rows
+
+
+#-----------------
+    scanRow = grid[x,]
+#-----------------
+current row
+
+
+#-----------------
+    if (x == 0):
+      arrOfBoxes = arrBoxes(0, 'r')
+    elif (x == 3):
+      arrOfBoxes = arrBoxes(3, 'r')
+    elif (x == 6):
+      arrOfBoxes = arrBoxes(6, 'r')
+
+    lBox = arrOfBoxes[0]
+    mBox = arrOfBoxes[1]
+    rBox = arrOfBoxes[2]
+#-----------------
+noticed lBox (left box), mBox (mid box) and rBox (right box), only changes on an interval, because first three rows is processing with the same first row of boxes  
 
 
 

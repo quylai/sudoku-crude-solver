@@ -5,7 +5,8 @@ import lis_of_func as az
 # .
 # modify string using ascii codes to replace 46 (.) with 48 (0), then typecast it into a list of characters
 inputs = list(
-".6..8..4.9..12.6.7.819..2........83.41.....69.95........6..917.1.2.54..8.3..1..2."
+"9....51.6...3...7.....46......8.......................74...3........769.39621..54"
+
               .translate({46: 48}))  
   
 # "...1.4..."
@@ -66,22 +67,72 @@ grid = np.array(inputs, dtype=int).reshape(9,9)
 # az.prtSudoku(grid)  ##
 
 
-# def hSingCand(grid):
+def arrBoxes(line, rowsOrCols):
+  arrOfBoxes = np.array([[]], dtype=int)  # initializing
 
-#   return grid
+  if (rowsOrCols == 'r'):
+
+    if (line >= 0 and line < 3):
+      arrOfBoxes = np.append(arrOfBoxes, grid[0:3, 0:3].copy())
+      arrOfBoxes = np.append(arrOfBoxes, grid[0:3, 3:6].copy())
+      arrOfBoxes = np.append(arrOfBoxes, grid[0:3, 6:9].copy()).reshape(3,9)
+
+    elif (line >= 3 and line < 6):
+      arrOfBoxes = np.append(arrOfBoxes, grid[3:6, 0:3].copy())
+      arrOfBoxes = np.append(arrOfBoxes, grid[3:6, 3:6].copy())
+      arrOfBoxes = np.append(arrOfBoxes, grid[3:6, 6:9].copy()).reshape(3,9)
+
+    elif (line >= 6 and line < 9):
+      arrOfBoxes = np.append(arrOfBoxes, grid[6:9, 0:3].copy())
+      arrOfBoxes = np.append(arrOfBoxes, grid[6:9, 3:6].copy())
+      arrOfBoxes = np.append(arrOfBoxes, grid[6:9, 6:9].copy()).reshape(3,9)
+
+  elif (rowsOrCols == 'c'):
+    # will filled later when working on vertical-single-candidates
+    print("blah")
+    
+  return arrOfBoxes
+
+def hSingCand(grid):
+
+      
+
+  for x in range(9):  # iterating thru rows
+
+    scanRow = grid[x,]
+
+    if (x == 0):
+      arrOfBoxes = arrBoxes(0, 'r')
+    elif (x == 3):
+      arrOfBoxes = arrBoxes(3, 'r')
+    elif (x == 6):
+      arrOfBoxes = arrBoxes(6, 'r')
+
+    lBox = arrOfBoxes[0]
+    mBox = arrOfBoxes[1]
+    rBox = arrOfBoxes[2]
+
+    print("row is " + str(scanRow))
+    print(lBox)  ##
+    print(mBox)  ##
+    print(rBox)  ##
+    print("----")
+
+
+  return grid  # in func hSingCand
 
 
 
 #--------------------------------------- begins processing in main
 
-# testingGrid = hSingCand(grid)
+testingGrid = hSingCand(grid)
 
 # r=rowsComp, c=colsComp, b=boxSingCand
-az.analyzeSeqs(grid, "rcbrcbrcbrcb")
+# az.analyzeSeqs(grid, "b", "bb", "bbb")
 
 
 
-# print("----------------------------------------")  ##
+print("----------------------------------------")  ##
 # az.prtSudoku(grid)  ##
 
 #--------------------------------------- ends processing in main

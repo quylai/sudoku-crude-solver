@@ -23,7 +23,7 @@ Labeling
 
   a b c d e f g h i
  -------------------
-1|* * *|     |     |
+1|     |     |     |
 2|     |     |     |
 3|     |     |     |
  -------------------
@@ -163,12 +163,38 @@ iterate thru cells of each boxes; eliminating # that ready existed in box/row/co
 ----------------------------------------------------------------------------------------
 Horizontal single candidates
 
-Summary:
-iterate thru cells of each "rows"; eliminating # that ready existed in box/row/col; assign to cell the last possible candidate remained
+iterate thru cells of each "rows"; eliminating # that ready existed in row/box/col; assign to cell the last possible candidate remained
 
+test case:
+9....51.6...3...7.....46......8.......................74...3........769.39621..54
 
+-------------------
+|9    |    5|1   6|
+|     |3    |  7  |
+|     |  4 6|     |
+-------------------
+|     |8    |     |
+|     |     |     |
+|     |     |     |
+-------------------
+|7 4  |    3|     |
+|     |    7|6 9  |
+|3 9 6|2 1  |  5 4|
+-------------------
 
+d1 = 7;  f9 = 8
 
+ 9 8 3 | 7 2 5 | 1 4 6
+ 6 1 4 | 3 8 9 | 5 7 2
+ 2 5 7 | 1 4 6 | 3 8 9
+-------|-------|-------
+ 1 3 9 | 8 7 4 | 2 6 5
+ 5 6 8 | 9 3 2 | 4 1 7
+ 4 7 2 | 5 6 1 | 9 3 8
+-------|-------|-------
+ 7 4 5 | 6 9 3 | 8 2 1
+ 8 2 1 | 4 5 7 | 6 9 3
+ 3 9 6 | 2 1 8 | 7 5 4
 
 
 
