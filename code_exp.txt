@@ -452,6 +452,9 @@ replace those number already existed in box with 0 in array possCand
           for c in col:
             if (c != 0 and np.where(dummyPC == c)[0].size != 0):
               dummyPC[np.where(dummyPC == c)[0][0]] = 0
+
+          if (np.nonzero(dummyPC)[0].size == 1):
+            grid[gridCoord[0], gridCoord[1]] = dummyPC[np.nonzero(dummyPC)[0][0]]
 #-----------------
 .
 .
@@ -493,9 +496,12 @@ for-loop is to eliminate number already exist in row from possCand
 saying: search in array dummyPC with value of row-cell (b), at that index, replace it with 0; those {...[0][0]}, refer to notes on np.where
 .
 .
-
-
-
+#-----------------
+          if (np.nonzero(dummyPC)[0].size == 1):
+#-----------------
+using .nonzero method, scan thru dummyPC for a non-zero value, if the array size is 1 then dummyPC has only one non-zere value;
+.
+method .nonzero returns is similar to .where
 
 
 

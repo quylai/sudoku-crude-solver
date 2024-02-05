@@ -219,7 +219,129 @@ def colsComp(grid):
 
 #---------------------------------------------------------------------------------------
 #---------------------------------------------------------------------------------------
-def nCount(grid):  # counting all cells filled
+def singCand(grid):
+
+  def coordBoxToGrid(boxNum, boxCoord):
+    box0 = np.array([[(0,0), (0,1), (0,2)], 
+                     [(1,0), (1,1), (1,2)], 
+                     [(2,0), (2,1), (2,2)]])
+
+    box1 = np.array([[(0,3), (0,4), (0,5)], 
+                     [(1,3), (1,4), (1,5)], 
+                     [(2,3), (2,4), (2,5)]])
+
+    box2 = np.array([[(0,6), (0,7), (0,8)], 
+                     [(1,6), (1,7), (1,8)], 
+                     [(2,6), (2,7), (2,8)]])
+    
+    box3 = np.array([[(3,0), (3,1), (3,2)], 
+                     [(4,0), (4,1), (4,2)], 
+                     [(5,0), (5,1), (5,2)]])
+    
+    box4 = np.array([[(3,3), (3,4), (3,5)], 
+                     [(4,3), (4,4), (4,5)], 
+                     [(5,3), (5,4), (5,5)]])
+    
+    box5 = np.array([[(3,6), (3,7), (3,8)], 
+                     [(4,6), (4,7), (4,8)], 
+                     [(5,6), (5,7), (5,8)]])
+    
+    box6 = np.array([[(6,0), (6,1), (6,2)], 
+                     [(7,0), (7,1), (7,2)], 
+                     [(8,0), (8,1), (8,2)]])
+    
+    box7 = np.array([[(6,3), (6,4), (6,5)], 
+                     [(7,3), (7,4), (7,5)], 
+                     [(8,3), (8,4), (8,5)]])
+    
+    box8 = np.array([[(6,6), (6,7), (6,8)], 
+                     [(7,6), (7,7), (7,8)], 
+                     [(8,6), (8,7), (8,8)]])
+
+    if (boxNum == 0):
+      gridCoord = box0[boxCoord[0], boxCoord[1]]
+    elif (boxNum == 1):
+      gridCoord = box1[boxCoord[0], boxCoord[1]]
+    elif (boxNum == 2):
+      gridCoord = box2[boxCoord[0], boxCoord[1]]
+    elif (boxNum == 3):
+      gridCoord = box3[boxCoord[0], boxCoord[1]]
+    elif (boxNum == 4):
+      gridCoord = box4[boxCoord[0], boxCoord[1]]
+    elif (boxNum == 5):
+      gridCoord = box5[boxCoord[0], boxCoord[1]]
+    elif (boxNum == 6):
+      gridCoord = box6[boxCoord[0], boxCoord[1]]
+    elif (boxNum == 7):
+      gridCoord = box7[boxCoord[0], boxCoord[1]]
+    elif (boxNum == 8):
+      gridCoord = box8[boxCoord[0], boxCoord[1]]
+
+    return gridCoord
+
+  boxVects = np.array([
+
+                       [0,3,0,3], [0,3,3,6], [0,3,6,9],
+                       [3,6,0,3], [3,6,3,6], [3,6,6,9],
+                       [6,9,0,3], [6,9,3,6], [6,9,6,9]])
+
+  # keep in mind:
+  # box0 is grid[0:3, 0:3]
+  # box4 is grid[3:6, 3:6]
+
+  for x in range(9):  # iterate thru boxes
+    a = boxVects[x][0].copy()
+    b = boxVects[x][1].copy()
+    c = boxVects[x][2].copy()
+    d = boxVects[x][3].copy()
+    scanBox = grid[a:b, c:d]
+
+    numInBox = 0
+    for y in scanBox.flat:  # counting cells solved of current box
+      if (y > 0):
+        numInBox += 1
+      if (numInBox == 4):                          
+        break
+
+    if (numInBox == 4):  # processing current box w/ 4>= cells solved
+
+      possCand = np.array([1,2,3,4,5,6,7,8,9])
+
+      # eliminating number already exist in box from possCand
+      for a in scanBox.flat:
+        if (a != 0):
+          possCand[np.where(possCand == a)[0][0]] = 0
+
+      # iterating cells of current viable box
+      for zdx, z in np.ndenumerate(scanBox):
+        dummyPC = possCand.copy()
+
+        if (z == 0):
+          gridCoord = coordBoxToGrid(x, zdx)
+
+          row = grid[gridCoord[0],]
+          col = grid[:, gridCoord[1]]
+
+          # eliminating number already exist in row from possCand
+          for b in row:
+            if (b != 0 and np.where(dummyPC == b)[0].size != 0):
+              dummyPC[np.where(dummyPC == b)[0][0]] = 0
+
+          # eliminating number already exist in col from possCand
+          for c in col:
+            if (c != 0 and np.where(dummyPC == c)[0].size != 0):
+              dummyPC[np.where(dummyPC == c)[0][0]] = 0
+
+          # when sole non-zero exist in possible-candiate array
+          if (np.nonzero(dummyPC)[0].size == 1):
+            grid[gridCoord[0], gridCoord[1]] = dummyPC[np.nonzero(dummyPC)[0][0]]
+
+  return grid  # return from singCand
+
+
+#---------------------------------------------------------------------------------------
+#---------------------------------------------------------------------------------------
+def nCount(grid):  # counting all cells filled in grid
   count = 0
   for x in grid:
     for y in x:
@@ -243,6 +365,8 @@ def analyzeSeqs(grid, *seqsOfStr):
         gridProc = rowsComp(gridProc)
       elif (x == 'c'):
         gridProc = colsComp(gridProc)
+      elif (x == 's'):
+        gridProc = singCand(gridProc)
 
     print("; ran sequence " + aSeq + ", now " + str(nCount(gridProc)) +
           "; solved " + str(nCount(gridProc)-gridInitNums))
