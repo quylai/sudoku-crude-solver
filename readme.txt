@@ -126,7 +126,7 @@ Cols comparison
 
 ----------------------------------------
 ----------------------------------------
-Single candidates
+Single candidates (boxSingCand)
 
 refer to site below, at section "Searching for Single Candidates"
 https://www.conceptispuzzles.com/index.aspx?uri=puzzle/sudoku/techniques
@@ -154,13 +154,17 @@ observe at (b4); after eliminate all those from box, row, and col;
 (b4) is left with numerical '2'
 
 (h4) will also be solved with '4', after (b4) solved;
-this was noticed after the creation of function singCand
+this was noticed after the creation of function boxSingCand
 
+Summary:
+iterate thru cells of each boxes; eliminating # that ready existed in box/row/col; assign to cell the last possible candidate remained
 
 ----------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------
+Horizontal single candidates
 
-
+Summary:
+iterate thru cells of each "rows"; eliminating # that ready existed in box/row/col; assign to cell the last possible candidate remained
 
 
 

@@ -282,7 +282,7 @@ def coordBoxToGrid(boxNum, boxCoord):
 
 #---------------------------------------------------------------------------------------
 #---------------------------------------------------------------------------------------
-def singCand(grid):
+def boxSingCand(grid):
 
   for x in range(9):  # iterate thru boxes
     a = BOX_VECTS[x][0].copy()
@@ -360,11 +360,13 @@ def analyzeSeqs(grid, *seqsOfStr):
         gridProc = rowsComp(gridProc)
       elif (x == 'c'):
         gridProc = colsComp(gridProc)
-      elif (x == 's'):
-        gridProc = singCand(gridProc)
+      elif (x == 'b'):
+        gridProc = boxSingCand(gridProc)
 
     print("; ran sequence " + aSeq + ", now " + str(nCount(gridProc)) +
           "; solved " + str(nCount(gridProc)-gridInitNums))
+    
+
 
 
 

@@ -63,20 +63,26 @@ inputs = list(
 
 # create a 1D array from list (inputs), then reshape it into 9x9 array
 grid = np.array(inputs, dtype=int).reshape(9,9)
-az.prtSudoku(grid)  ##
+# az.prtSudoku(grid)  ##
+
+
+# def hSingCand(grid):
+
+#   return grid
 
 
 
 #--------------------------------------- begins processing in main
 
+# testingGrid = hSingCand(grid)
 
-# r=rowsComp, c=colsComp, s=singCand
-az.analyzeSeqs(grid, "rc", "rcrc", "rcsrcsrcsrcs", "", "")
+# r=rowsComp, c=colsComp, b=boxSingCand
+az.analyzeSeqs(grid, "rcbrcbrcbrcb")
 
 
 
-print("----------------------------------------")  ##
-az.prtSudoku(grid)  ##
+# print("----------------------------------------")  ##
+# az.prtSudoku(grid)  ##
 
 #--------------------------------------- ends processing in main
 

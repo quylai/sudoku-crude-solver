@@ -11,7 +11,7 @@ used in rowsComp and colsComp function
 
 ------------------
 BOX_VECTS
-used in singCand function
+used in boxSingCand function
 
 this is an array of 9-by-4, contain rows of values to partition grid into boxes
 .
@@ -393,7 +393,7 @@ np.where(colBlocElement == 0)[0][0]
 ----------------------------------------------------------------------------------------
 function: coordBoxToGrid (coordinates from box to grid)
 
-location: in func "singCand"
+location: in func "boxSingCand"
 args: boxNum, boxCoord
 constraint: -
 
@@ -410,7 +410,7 @@ simply put, box0-box8 are the mapping of its 3-by-3 array onto grid array; the f
 #-----------------
     return gridCoord
 #-----------------
-gridCoord is used in function singCand to call on row/col crossed at said cells
+gridCoord is used in function boxSingCand to call on row/col crossed at said cells
 
 
 
@@ -422,7 +422,7 @@ location: -
 args: boxNum, boxCoord
 constraint: definition listing needed to be, 
                  after: "rowsComp" and "colsComp",
-                before: "singCand"
+                before: "boxSingCand"
 
 ------------------
 boxNum
@@ -466,7 +466,7 @@ such that if box 3 would have indices as:
 
 ----------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------
-function: singCand (single candidate)
+function: boxSingCand (single candidate)
 
 location: -
 args: grid
