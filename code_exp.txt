@@ -517,7 +517,7 @@ this array contains possible candidates for that particular cell; the elements w
         if (a != 0):
           possCand[np.where(possCand == a)[0][0]] = 0
 #-----------------
-replace those number already existed in box with 0 in array possCand
+replace those number already existed in box with 0 in array possCand; .flat is needed to view scanBox as 1D array
 
 
 #-----------------
@@ -627,6 +627,16 @@ evaluate for 'r' (rows) or 'c' (cols)
 with respect to row, appending relevant boxes to array arrOfBoxes then reshape to 3-by-9
 
 
+#-----------------
+  return arrOfBoxes
+#-----------------
+in the case of 'r'
+    left box is   arrOfBoxes[0]
+    mid box is    arrOfBoxes[1]
+    right box is  arrOfBoxes[2]
+
+
+
 
 ----------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------
@@ -637,6 +647,10 @@ args: grid
 constraint: definition listing needed to be, 
                  after: "arrBoxes"
                 before: "nCount" and "analyzeSeqs"
+
+note that this function only process rows with at least 4 solved;
+most of the function coding is derived from boxSingCand, so explanation mostly targeted at the differences
+
 
 #-----------------
   for x in range(9):
@@ -663,6 +677,25 @@ current row
     rBox = arrOfBoxes[2]
 #-----------------
 noticed lBox (left box), mBox (mid box) and rBox (right box), only changes on an interval, because first three rows is processing with the same first row of boxes  
+
+
+#-----------------
+          if (zdx[0] >= 0 and zdx[0] < 3):
+            for c in lBox:
+              if (c != 0 and np.where(dummyPC == c)[0].size != 0):
+                dummyPC[np.where(dummyPC == c)[0][0]] = 0
+
+          elif (zdx[0] >= 3 and zdx[0] < 6):
+            for d in mBox:
+              if (d != 0 and np.where(dummyPC == d)[0].size != 0):
+                dummyPC[np.where(dummyPC == d)[0][0]] = 0
+
+          elif (zdx[0] >= 6 and zdx[0] < 9):
+            for e in rBox:
+              if (e != 0 and np.where(dummyPC == e)[0].size != 0):
+                dummyPC[np.where(dummyPC == e)[0][0]] = 0
+#-----------------
+depending on at which indices (zdx[0]) currently on the iterating row, if/else is to fork the elimination of [left or mid or right]_box from possible candidate array
 
 
 

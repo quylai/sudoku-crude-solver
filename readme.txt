@@ -163,7 +163,7 @@ iterate thru cells of each boxes; eliminating # that ready existed in box/row/co
 ----------------------------------------------------------------------------------------
 Horizontal single candidates
 
-iterate thru cells of each "rows"; eliminating # that ready existed in row/box/col; assign to cell the last possible candidate remained
+iterate thru cells of each "rows"; eliminating # that ready existed in row/col/box; assign to cell the last possible candidate remained
 
 test case:
 9....51.6...3...7.....46......8.......................74...3........769.39621..54
