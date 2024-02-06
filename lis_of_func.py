@@ -336,6 +336,105 @@ def boxSingCand(grid):
 
 #---------------------------------------------------------------------------------------
 #---------------------------------------------------------------------------------------
+def arrBoxes(grid, line, rowsOrCols):
+  arrOfBoxes = np.array([[]], dtype=int)  # initializing
+
+  if (rowsOrCols == 'r'):
+
+    if (line >= 0 and line < 3):
+      arrOfBoxes = np.append(arrOfBoxes, grid[0:3, 0:3].copy())
+      arrOfBoxes = np.append(arrOfBoxes, grid[0:3, 3:6].copy())
+      arrOfBoxes = np.append(arrOfBoxes, grid[0:3, 6:9].copy()).reshape(3,9)
+
+    elif (line >= 3 and line < 6):
+      arrOfBoxes = np.append(arrOfBoxes, grid[3:6, 0:3].copy())
+      arrOfBoxes = np.append(arrOfBoxes, grid[3:6, 3:6].copy())
+      arrOfBoxes = np.append(arrOfBoxes, grid[3:6, 6:9].copy()).reshape(3,9)
+
+    elif (line >= 6 and line < 9):
+      arrOfBoxes = np.append(arrOfBoxes, grid[6:9, 0:3].copy())
+      arrOfBoxes = np.append(arrOfBoxes, grid[6:9, 3:6].copy())
+      arrOfBoxes = np.append(arrOfBoxes, grid[6:9, 6:9].copy()).reshape(3,9)
+
+  elif (rowsOrCols == 'c'):
+    # will filled later when working on vertical-single-candidates
+    print("blah")
+    
+  return arrOfBoxes
+
+
+#---------------------------------------------------------------------------------------
+#---------------------------------------------------------------------------------------
+def hSingCand(grid):
+
+  for x in range(9):  # iterating thru rows
+    scanRow = grid[x,]
+
+    if (x == 0):
+      arrOfBoxes = arrBoxes(grid, 0, 'r')
+    elif (x == 3):
+      arrOfBoxes = arrBoxes(grid, 3, 'r')
+    elif (x == 6):
+      arrOfBoxes = arrBoxes(grid, 6, 'r')
+
+    lBox = arrOfBoxes[0]
+    mBox = arrOfBoxes[1]
+    rBox = arrOfBoxes[2]
+
+    numInBox = 0
+    for y in scanRow:  # counting cells solved of current row
+      if (y > 0):
+        numInBox += 1
+      if (numInBox == 4):                          
+        break
+
+    if (numInBox == 4):  # processing current row w/ 4>= cells solved
+      possCand = np.array([1,2,3,4,5,6,7,8,9])
+
+      # eliminating number already exist in row from possCand
+      for a in scanRow:
+        if (a != 0):
+          possCand[np.where(possCand == a)[0][0]] = 0
+
+      # iterating cells of current viable row
+      for zdx, z in np.ndenumerate(scanRow):
+        dummyPC = possCand.copy()
+
+        if (z == 0):
+          col = grid[:, zdx[0]]
+
+          # eliminating number already exist in col from possCand
+          for b in col:
+            if (b != 0 and np.where(dummyPC == b)[0].size != 0):
+              dummyPC[np.where(dummyPC == b)[0][0]] = 0
+
+          # eliminating number already exist in left-box from possCand
+          if (zdx[0] >= 0 and zdx[0] < 3):
+            for c in lBox:
+              if (c != 0 and np.where(dummyPC == c)[0].size != 0):
+                dummyPC[np.where(dummyPC == c)[0][0]] = 0
+
+          # eliminating number already exist in mid-box from possCand
+          elif (zdx[0] >= 3 and zdx[0] < 6):
+            for d in mBox:
+              if (d != 0 and np.where(dummyPC == d)[0].size != 0):
+                dummyPC[np.where(dummyPC == d)[0][0]] = 0
+
+          # eliminating number already exist in right-box from possCand
+          elif (zdx[0] >= 6 and zdx[0] < 9):
+            for e in rBox:
+              if (e != 0 and np.where(dummyPC == e)[0].size != 0):
+                dummyPC[np.where(dummyPC == e)[0][0]] = 0
+
+          # when sole non-zero exist in possible-candiate array
+          if (np.nonzero(dummyPC)[0].size == 1):
+            grid[x, zdx[0]] = dummyPC[np.nonzero(dummyPC)[0][0]]
+
+  return grid 
+
+
+#---------------------------------------------------------------------------------------
+#---------------------------------------------------------------------------------------
 def nCount(grid):  # counting all cells filled in grid
   count = 0
   for x in grid:
@@ -353,7 +452,6 @@ def analyzeSeqs(grid, *seqsOfStr):
   for aSeq in seqsOfStr:
     gridProc = grid.copy()
     gridInitNums = nCount(gridProc)
-    print("initially: " + str(gridInitNums), end='')
 
     for x in aSeq:
       if (x == 'r'):
@@ -362,9 +460,14 @@ def analyzeSeqs(grid, *seqsOfStr):
         gridProc = colsComp(gridProc)
       elif (x == 'b'):
         gridProc = boxSingCand(gridProc)
+      elif (x == 'h'):
+        gridProc = hSingCand(gridProc)
 
-    print("; ran sequence " + aSeq + ", now " + str(nCount(gridProc)) +
-          "; solved " + str(nCount(gridProc)-gridInitNums))
+    print("initially: " + str(gridInitNums) + "; ran sequence " + aSeq + ", now " + 
+          str(nCount(gridProc)) +"; solved " + str(nCount(gridProc)-gridInitNums))
+    
+    # prtSudoku(gridProc)  # do not delete, needed for troubleshooting
+
     
 
 

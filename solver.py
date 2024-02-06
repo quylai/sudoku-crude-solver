@@ -5,21 +5,9 @@ import lis_of_func as az
 # .
 # modify string using ascii codes to replace 46 (.) with 48 (0), then typecast it into a list of characters
 inputs = list(
-"9....51.6...3...7.....46......8.......................74...3........769.39621..54"
-
+"...1.4.....1...9...9.7.3.6.8.7...1.6.........3.4...5.9.5.4.2.3...8...6.....8.6..."
               .translate({46: 48}))  
   
-# "...1.4..."
-# "..1...9.."
-# ".9.7.3.6."
-# "8.7...1.6" #
-# "........." #
-# "3.4...5.9" #
-# ".5.4.2.3."
-# "..8...6.."
-# "...8.6..."
-              # .translate({46: 48})) 
-
 
 # "9....51.6...3...7.....46......8.......................74...3........769.39621..54"
 # testing case for hSingCand; if correctly ran, d1 = 7 and f9 = 8
@@ -27,14 +15,14 @@ inputs = list(
 
 
 # ".6..8..4.9..12.6.7.819..2........83.41.....69.95........6..917.1.2.54..8.3..1..2."
-####  6# - r;    4# - c;    15# - rcrc;  49# - rcsrcsrcsrcs
+#32#  6# - r;  4# - c;  15# - rcrc;    49# - rcbrcbrcbrcb;  49# - rcbhrcbhrcbh
 
 # "...9.3.....38274...2.....8.26.4.1.79.7.....5.13.5.2.64.8.....9...41692.....7.8..."
-####  7# - rr;   7# - cc;   17# - rcrc   25# - rcsrcs
+#32#  7# - rr; 7# - cc; 19# - rcrcrc;  25# - rcbrcb;        49# - rcbhrcbhrcbhrcbh
 
 # "...1.4.....1...9...9.7.3.6.8.7...1.6.........3.4...5.9.5.4.2.3...8...6.....8.6..."
-####  2# - r;    0# - c;    2# - rc      5# - rcsrcs;
-####  ---------- ---------- ------------  
+#24#  2# - r;  0# - c;  2# - rc;       5# - rcbrcb;         5# - rcbhrcbh
+####  -------- -------- -------------- --------------------
 
 
 # for visual
@@ -69,135 +57,29 @@ inputs = list(
 
 # create a 1D array from list (inputs), then reshape it into 9x9 array
 grid = np.array(inputs, dtype=int).reshape(9,9)
-# az.prtSudoku(grid)  ##
-
-
-def arrBoxes(line, rowsOrCols):
-  arrOfBoxes = np.array([[]], dtype=int)  # initializing
-
-  if (rowsOrCols == 'r'):
-
-    if (line >= 0 and line < 3):
-      arrOfBoxes = np.append(arrOfBoxes, grid[0:3, 0:3].copy())
-      arrOfBoxes = np.append(arrOfBoxes, grid[0:3, 3:6].copy())
-      arrOfBoxes = np.append(arrOfBoxes, grid[0:3, 6:9].copy()).reshape(3,9)
-
-    elif (line >= 3 and line < 6):
-      arrOfBoxes = np.append(arrOfBoxes, grid[3:6, 0:3].copy())
-      arrOfBoxes = np.append(arrOfBoxes, grid[3:6, 3:6].copy())
-      arrOfBoxes = np.append(arrOfBoxes, grid[3:6, 6:9].copy()).reshape(3,9)
-
-    elif (line >= 6 and line < 9):
-      arrOfBoxes = np.append(arrOfBoxes, grid[6:9, 0:3].copy())
-      arrOfBoxes = np.append(arrOfBoxes, grid[6:9, 3:6].copy())
-      arrOfBoxes = np.append(arrOfBoxes, grid[6:9, 6:9].copy()).reshape(3,9)
-
-  elif (rowsOrCols == 'c'):
-    # will filled later when working on vertical-single-candidates
-    print("blah")
-    
-  return arrOfBoxes
-
-def hSingCand(grid):
-
-      
-
-  for x in range(9):  # iterating thru rows
-
-    scanRow = grid[x,]
-
-    if (x == 0):
-      arrOfBoxes = arrBoxes(0, 'r')
-    elif (x == 3):
-      arrOfBoxes = arrBoxes(3, 'r')
-    elif (x == 6):
-      arrOfBoxes = arrBoxes(6, 'r')
-
-    lBox = arrOfBoxes[0]
-    mBox = arrOfBoxes[1]
-    rBox = arrOfBoxes[2]
-
-    numInBox = 0
-    for y in scanRow:  # counting cells solved of current row
-      if (y > 0):
-        numInBox += 1
-      if (numInBox == 4):                          
-        break
-
-    if (numInBox == 4):  # processing current row w/ 4>= cells solved
-      possCand = np.array([1,2,3,4,5,6,7,8,9])
-
-      print(scanRow)
-      print("pC b4 " + str(possCand))
-
-      # eliminating number already exist in row from possCand
-      for a in scanRow:
-        if (a != 0):
-          possCand[np.where(possCand == a)[0][0]] = 0
-
-      # iterating cells of current viable row
-      for zdx, z in np.ndenumerate(scanRow):
-        dummyPC = possCand.copy()
-
-        if (z == 0):
-          col = grid[:, zdx[0]]
-
-          # eliminating number already exist in col from possCand
-          for b in col:
-            if (b != 0 and np.where(dummyPC == b)[0].size != 0):
-              dummyPC[np.where(dummyPC == b)[0][0]] = 0
-
-          # eliminating number already exist in left-box from possCand
-          if (zdx[0] >= 0 and zdx[0] < 3):
-            for c in lBox:
-              if (c != 0 and np.where(dummyPC == c)[0].size != 0):
-                dummyPC[np.where(dummyPC == c)[0][0]] = 0
-
-          # eliminating number already exist in mid-box from possCand
-          elif (zdx[0] >= 3 and zdx[0] < 6):
-            for d in mBox:
-              if (d != 0 and np.where(dummyPC == d)[0].size != 0):
-                dummyPC[np.where(dummyPC == d)[0][0]] = 0
-
-          # eliminating number already exist in right-box from possCand
-          elif (zdx[0] >= 6 and zdx[0] < 9):
-            for e in rBox:
-              if (e != 0 and np.where(dummyPC == e)[0].size != 0):
-                dummyPC[np.where(dummyPC == e)[0][0]] = 0
-
-          # when sole non-zero exist in possible-candiate array
-          if (np.nonzero(dummyPC)[0].size == 1):
-            grid[x, zdx[0]] = dummyPC[np.nonzero(dummyPC)[0][0]]
-
-
-          # print("pC after " + str(dummyPC))
-
-      # print("----")
+az.prtSudoku(grid)  ##
 
 
 
-      # print("row is " + str(scanRow))
-      # print(lBox)  ##
-      # print(mBox)  ##
-      # print(rBox)  ##
-      # print("----")
 
 
-  return grid  # in func hSingCand
 
 
 
 #--------------------------------------- begins processing in main
 
-testingGrid = hSingCand(grid)
+# testingGrid = az.rowsComp(grid)
 
-# r=rowsComp, c=colsComp, b=boxSingCand
-# az.analyzeSeqs(grid, "b", "bb", "bbb")
+# r=rowsComp, c=colsComp, b=boxSingCand, h=hSingCand
+# az.analyzeSeqs(grid, "r", "rcbrcb", "", "")
+az.analyzeSeqs(grid, "rcbrcb")
+
+
 
 
 
 print("----------------------------------------")  ##
-az.prtSudoku(grid)  ##
+# az.prtSudoku(grid)  ##
 
 #--------------------------------------- ends processing in main
 
