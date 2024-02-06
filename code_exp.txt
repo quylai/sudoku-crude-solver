@@ -595,10 +595,11 @@ method .nonzero returns is similar to .where
 function: arrBoxes (array boxes)
 
 location: -
+usage: "hSingCand" and "vSingCand"
 args: line, rowsOrCols
 constraint: definition listing needed to be, 
                  after: "boxSingCand"
-                before: "hSingCand"
+                before: "hSingCand" and "vSingCand"
 
 ------------------
 line
@@ -634,7 +635,11 @@ in the case of 'r'
     left box is   arrOfBoxes[0]
     mid box is    arrOfBoxes[1]
     right box is  arrOfBoxes[2]
-
+.
+in the case of 'c'
+    top box is    arrOfBoxes[0]
+    mid box is    arrOfBoxes[1]
+    bottom box is arrOfBoxes[2]
 
 
 
@@ -649,7 +654,7 @@ constraint: definition listing needed to be,
                 before: "nCount" and "analyzeSeqs"
 
 note that this function only process rows with at least 4 solved;
-most of the function coding is derived from boxSingCand, so explanation mostly targeted at the differences
+most of the function coding is derived from "boxSingCand", so explanation mostly targeted at the differences; also very similar to "vSingCand"
 
 
 #-----------------
@@ -696,6 +701,130 @@ noticed lBox (left box), mBox (mid box) and rBox (right box), only changes on an
                 dummyPC[np.where(dummyPC == e)[0][0]] = 0
 #-----------------
 depending on at which indices (zdx[0]) currently on the iterating row, if/else is to fork the elimination of [left or mid or right]_box from possible candidate array
+
+
+
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+function: vSingCand (vetical single candidate)
+
+location: -
+args: grid
+constraint: definition listing needed to be, 
+                 after: "arrBoxes"
+                before: "nCount" and "analyzeSeqs"
+
+note that this function only process cols with at least 4 solved;
+coding in this function is similar, if there is disconnection in understanding, refers to "boxSingCand" and "hSingCand"
+
+
+#-----------------
+  for x in range(9):  
+#-----------------
+iterating thru cols
+
+
+#-----------------
+    scanCol = grid[:, x]
+#-----------------
+current iterating col
+
+
+#-----------------
+    if (x == 0):
+      arrOfBoxes = arrBoxes(grid, 0, 'c')
+    elif (x == 3):
+      arrOfBoxes = arrBoxes(grid, 3, 'c')
+    elif (x == 6):
+      arrOfBoxes = arrBoxes(grid, 6, 'c')
+
+    tBox = arrOfBoxes[0]
+    mBox = arrOfBoxes[1]
+    bBox = arrOfBoxes[2]
+#-----------------
+called function arrBoxes to have it return with array arrOfBoxes, which contained arrOfBoxes[0] as top-box, arrOfBoxes[1] as middle-box, and arrOfBoxes[2] as bottom-box
+
+
+#-----------------
+    numInBox = 0
+    for y in scanCol:
+      if (y > 0):
+        numInBox += 1
+      if (numInBox == 4):                          
+        break
+#-----------------
+scanning current col (scanCol) and tallying with numInBox for number of cells already solved
+
+
+#-----------------
+      possCand = np.array([1,2,3,4,5,6,7,8,9])
+#-----------------
+possible candidate array, used to mark off (replace with '0') vSingCand scanning against current col, current cell cross-row, and current cell box 
+
+
+#-----------------
+      for a in scanCol:
+        if (a != 0):
+          possCand[np.where(possCand == a)[0][0]] = 0
+#-----------------
+scanning against current col, eliminating number already exist in col from possCand
+
+
+#-----------------
+      for zdx, z in np.ndenumerate(scanCol):
+#-----------------
+iterating cells of current viable col
+
+
+#-----------------
+        dummyPC = possCand.copy()
+#-----------------
+this is necessary to maintained that current col elimination against possCand is the same for all iterating cell in its current col; without this, changes in possCand will accumulate
+
+
+#-----------------
+        if (z == 0): # @ empty cell in scanCol
+          row = grid[zdx[0],]
+#-----------------
+in current col, of an empty cell; assigning cross-row
+
+
+#-----------------
+          for b in row:
+            if (b != 0 and np.where(dummyPC == b)[0].size != 0):
+              dummyPC[np.where(dummyPC == b)[0][0]] = 0
+#-----------------
+scanning against current cell cross-row, eliminating number already exist in row from possCand
+
+
+#-----------------
+          if (zdx[0] >= 0 and zdx[0] < 3):
+            for c in tBox:
+              if (c != 0 and np.where(dummyPC == c)[0].size != 0):
+                dummyPC[np.where(dummyPC == c)[0][0]] = 0
+
+          elif (zdx[0] >= 3 and zdx[0] < 6):
+            for d in mBox:
+              if (d != 0 and np.where(dummyPC == d)[0].size != 0):
+                dummyPC[np.where(dummyPC == d)[0][0]] = 0
+
+          elif (zdx[0] >= 6 and zdx[0] < 9):
+            for e in bBox:
+              if (e != 0 and np.where(dummyPC == e)[0].size != 0):
+                dummyPC[np.where(dummyPC == e)[0][0]] = 0
+#-----------------
+depending on index of current iterating cell, tBox or mBox or bBox, would be scan and mark off in dummyPC (possCand proxy)
+
+
+#-----------------
+          if (np.nonzero(dummyPC)[0].size == 1):
+            grid[zdx[0], x] = dummyPC[np.nonzero(dummyPC)[0][0]]
+#-----------------
+when sole non-zero exist in possible-candiate array;
+.nonzero method allow for search of non-zero value in dummyPC and return an array of indices (np.nonzero(dummyPC)[0]) where those non-zero occurred in dummyPC;
+so:
+np.nonzero(dummyPC)[0]      is array of indices
+np.nonzero(dummyPC)[0][0]   is the value of that first indices on dummyPC
 
 
 

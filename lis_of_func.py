@@ -448,6 +448,76 @@ def hSingCand(grid):
 
 #---------------------------------------------------------------------------------------
 #---------------------------------------------------------------------------------------
+def vSingCand(grid):
+
+  for x in range(9):  # iterating thru cols
+    scanCol = grid[:, x]
+
+    if (x == 0):
+      arrOfBoxes = arrBoxes(grid, 0, 'c')
+    elif (x == 3):
+      arrOfBoxes = arrBoxes(grid, 3, 'c')
+    elif (x == 6):
+      arrOfBoxes = arrBoxes(grid, 6, 'c')
+
+    tBox = arrOfBoxes[0]
+    mBox = arrOfBoxes[1]
+    bBox = arrOfBoxes[2]
+
+    numInBox = 0
+    for y in scanCol:  # counting cells solved of current col
+      if (y > 0):
+        numInBox += 1
+      if (numInBox == 4):                          
+        break
+
+    if (numInBox == 4):  # processing current col w/ 4>= cells solved
+      possCand = np.array([1,2,3,4,5,6,7,8,9])
+
+      # eliminating number already exist in col from possCand
+      for a in scanCol:
+        if (a != 0):
+          possCand[np.where(possCand == a)[0][0]] = 0
+
+      # iterating cells of current viable col
+      for zdx, z in np.ndenumerate(scanCol):
+        dummyPC = possCand.copy()
+
+        if (z == 0): # @ empty cell in scanCol
+          row = grid[zdx[0],]
+
+          # eliminating number already exist in row from possCand
+          for b in row:
+            if (b != 0 and np.where(dummyPC == b)[0].size != 0):
+              dummyPC[np.where(dummyPC == b)[0][0]] = 0
+
+          # eliminating number already exist in top-box from possCand
+          if (zdx[0] >= 0 and zdx[0] < 3):
+            for c in tBox:
+              if (c != 0 and np.where(dummyPC == c)[0].size != 0):
+                dummyPC[np.where(dummyPC == c)[0][0]] = 0
+
+          # eliminating number already exist in mid-box from possCand
+          elif (zdx[0] >= 3 and zdx[0] < 6):
+            for d in mBox:
+              if (d != 0 and np.where(dummyPC == d)[0].size != 0):
+                dummyPC[np.where(dummyPC == d)[0][0]] = 0
+
+          # eliminating number already exist in bottom-box from possCand
+          elif (zdx[0] >= 6 and zdx[0] < 9):
+            for e in bBox:
+              if (e != 0 and np.where(dummyPC == e)[0].size != 0):
+                dummyPC[np.where(dummyPC == e)[0][0]] = 0
+
+          # when sole non-zero exist in possible-candiate array
+          if (np.nonzero(dummyPC)[0].size == 1):
+            grid[zdx[0], x] = dummyPC[np.nonzero(dummyPC)[0][0]]
+
+  return grid
+
+
+#---------------------------------------------------------------------------------------
+#---------------------------------------------------------------------------------------
 def nCount(grid):  # counting all cells filled in grid
   count = 0
   for x in grid:
@@ -475,6 +545,8 @@ def analyzeSeqs(grid, *seqsOfStr):
         gridProc = boxSingCand(gridProc)
       elif (x == 'h'):
         gridProc = hSingCand(gridProc)
+      elif (x == 'v'):
+        gridProc = vSingCand(gridProc)
 
     print("initially: " + str(gridInitNums) + "; ran sequence " + aSeq + ", now " + 
           str(nCount(gridProc)) +"; solved " + str(nCount(gridProc)-gridInitNums))
