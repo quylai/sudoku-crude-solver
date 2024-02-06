@@ -357,8 +357,21 @@ def arrBoxes(grid, line, rowsOrCols):
       arrOfBoxes = np.append(arrOfBoxes, grid[6:9, 6:9].copy()).reshape(3,9)
 
   elif (rowsOrCols == 'c'):
-    # will filled later when working on vertical-single-candidates
-    print("blah")
+
+    if (line >= 0 and line < 3):
+      arrOfBoxes = np.append(arrOfBoxes, grid[0:3, 0:3].copy())
+      arrOfBoxes = np.append(arrOfBoxes, grid[3:6, 0:3].copy())
+      arrOfBoxes = np.append(arrOfBoxes, grid[6:9, 0:3].copy()).reshape(3,9)
+
+    elif (line >= 3 and line < 6):
+      arrOfBoxes = np.append(arrOfBoxes, grid[0:3, 3:6].copy())
+      arrOfBoxes = np.append(arrOfBoxes, grid[3:6, 3:6].copy())
+      arrOfBoxes = np.append(arrOfBoxes, grid[6:9, 3:6].copy()).reshape(3,9)
+
+    elif (line >= 6 and line < 9):
+      arrOfBoxes = np.append(arrOfBoxes, grid[0:3, 6:9].copy())
+      arrOfBoxes = np.append(arrOfBoxes, grid[3:6, 6:9].copy())
+      arrOfBoxes = np.append(arrOfBoxes, grid[6:9, 6:9].copy()).reshape(3,9)
     
   return arrOfBoxes
 
@@ -466,7 +479,7 @@ def analyzeSeqs(grid, *seqsOfStr):
     print("initially: " + str(gridInitNums) + "; ran sequence " + aSeq + ", now " + 
           str(nCount(gridProc)) +"; solved " + str(nCount(gridProc)-gridInitNums))
     
-    # prtSudoku(gridProc)  # do not delete, needed for troubleshooting
+    prtSudoku(gridProc)  # do not delete, needed for troubleshooting
 
     
 
