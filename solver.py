@@ -5,7 +5,7 @@ import lis_of_func as az
 # .
 # modify string using ascii codes to replace 46 (.) with 48 (0), then typecast it into a list of characters
 inputs = list(
-"...1.........82.......7..9......6......8........9........6.3......7.........54..."
+"3.65.84..52........87....31..3.1..8.9..863..5.5..9.6..13....25........74..52.63.."
               .translate({46: 48}))  
   
 
@@ -57,15 +57,21 @@ az.prtSudoku(grid)  ##
 
 # testingGrid = vSingCand(grid)
 
-# r=rowsComp, c=colsComp, b=boxSingCand, h=hSingCand
-# az.analyzeSeqs(grid, "rcbh", "rcbhrcbh", "rcbhrcbhrcbh", "rcbhrcbhrcbhrcbh")
-az.analyzeSeqs(grid, "v")
+# r=rowsComp, c=colsComp, b=boxSingCand, h=hSingCand, v=vSingCand
+# az.analyzeSeqs(grid, "rcb", "rcbrcb", "rcbrcbrcb", "rcbrcbrcbrcb", "rcbrcbrcbrcbrcb",
+#                      "rch", "rchrch", "rchrchrch", "rchrchrchrch", "rchrchrchrchrch",
+#                      "rcv", "rcvrcv", "rcvrcvrcv", "rcvrcvrcvrcv", "rcvrcvrcvrcvrcv",
+# )
+# az.analyzeSeqs(grid, "rcbhv", "rcbhvrcbhv", "rcbhvrcbhvrcbhv", "rcbhvrcbhvrcbhvrcbhv")
+# az.analyzeSeqs(grid, "rcvrcvrcvrcvrcvrcvrcv")
 
 
+"""
+This approach is not sufficient to solve ALL sudoku.  Will explore other option...
+"""
 
 
-
-print("----------------------------------------")  ##
+# print("----------------------------------------")  ##
 # az.prtSudoku(grid)  ##
 
 #--------------------------------------- ends processing in main
@@ -78,6 +84,11 @@ print("----------------------------------------")  ##
 
 #---------------------------------------------------------------------------------------
 '''
+
+
+
+
+
 '''
 
 

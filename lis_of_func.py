@@ -551,7 +551,7 @@ def analyzeSeqs(grid, *seqsOfStr):
     print("initially: " + str(gridInitNums) + "; ran sequence " + aSeq + ", now " + 
           str(nCount(gridProc)) +"; solved " + str(nCount(gridProc)-gridInitNums))
     
-    prtSudoku(gridProc)  # do not delete, needed for troubleshooting
+    # prtSudoku(gridProc)  # do not delete, needed for troubleshooting
 
     
 

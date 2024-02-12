@@ -1,0 +1,642 @@
+
+Source:
+https://www.geeksforgeeks.org/sudoku-backtracking-7/#
+
+#-----------------
+#---------------------------------------------------------------------------------------
+#---------------------------------------------------------------------------------------
+------------------
+----------------------------------------
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+#
+#
+# Naive Approach
+#
+#
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+in solver1.py
+
+----------------------------------------
+Processing flow:
+
+* Create a function that checks if the given matrix is valid sudoku or not. Keep
+  Hashmap for the row, column and boxes. If any number has a frequency greater than
+  1 in the hashMap return false else return true;
+
+* Create a recursive function that takes a grid and the current row and column index.
+
+* Check some base cases. 
+  - If the index is at the end of the matrix, i.e. i=N-1 and j=N then check if the
+    grid is safe or not, if safe print the grid and return true else return false. 
+  - The other base case is when the value of column is N, i.e j = N, then move to
+    next row, i.e. i++ and j = 0.
+
+* If the current index is not assigned then fill the element from 1 to 9 and recur
+  for all 9 cases with the index of next element, i.e. i, j+1. if the recursive
+  call returns true then break the loop and return true.
+
+* If the current index is assigned then call the recursive function with the index
+  of the next element, i.e. i, j+1
+----------------------------------------
+
+
+#-----------------
+N = 9
+#-----------------
+N is the size of the 2D matrix   N*N
+
+
+#-----------------
+def printing(arr):
+    for i in range(N):
+        for j in range(N):
+            print(arr[i][j], end = " ")
+        print()
+#-----------------
+A utility function to print grid
+
+
+#-----------------
+def isSafe(grid, row, col, num):
+#-----------------
+Checks whether it will be legal to assign num to the given row, col, box
+
+
+#-----------------
+    for x in range(9):              # checking current row
+        if grid[row][x] == num:
+            return False
+ 
+    for x in range(9):              # checking current col
+        if grid[x][col] == num:
+            return False
+ 
+    startRow = row - row % 3
+    startCol = col - col % 3
+    for i in range(3):              # checking current box
+        for j in range(3):
+            if grid[i + startRow][j + startCol] == num:
+                return False
+#-----------------
+Each for-statement is to check if number exist in current, row, col, box, respectively.
+
+
+#-----------------
+def solveSudoku(grid, row, col):
+#-----------------
+Takes a partially filled-in grid and attempts to assign values to all unassigned locations in such a way to meet the requirements for Sudoku solution (non-duplication cross rows, columns, and boxes) */
+
+
+#-----------------
+    if (row == N - 1 and col == N):
+        return True
+#-----------------
+Check if we have reached the row_index_8 and col_index_9, we are returning true to avoid further backtracking
+
+
+#-----------------
+    if col == N:
+        row += 1
+        col = 0
+#-----------------
+Check if column index_9, we move to next row and column start index_0
+
+
+#-----------------
+    if grid[row][col] > 0:
+        return solveSudoku(grid, row, col + 1)
+    for num in range(1, N + 1, 1):
+#-----------------
+Check if the current position of the grid already contains value > 0, we iterate for next column
+
+
+#-----------------
+        if isSafe(grid, row, col, num):
+#-----------------
+Check if it is safe to place the num (1-9) in the given row, col -> we move to next column
+
+
+#-----------------
+            grid[row][col] = num
+#-----------------
+Assigning the num in the current (row,col) position of the grid and assuming our assigned num in the position is correct
+
+
+#-----------------
+            if solveSudoku(grid, row, col + 1):
+                return True
+#-----------------
+Checking for next possibility with next column
+
+
+#-----------------
+        grid[row][col] = 0
+#-----------------
+Removing the assigned num, since our assumption was wrong, and we go for next assumption with diff num value
+
+
+----------------------------------------
+Footnotes:
+
+This approach is almost identical to the second approach.  Refer to its footnotes about recursive.
+
+
+
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+#
+#
+# Sudoku using Backtracking
+#
+#
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+in solver2.py
+
+----------------------------------------
+Processing flow:
+
+* Create a function that checks after assigning the current index the grid becomes
+  unsafe or not. Keep Hashmap for a row, column and boxes. If any number has a
+  frequency greater than 1 in the hashMap return false else return true; hashMap can
+  be avoided by using loops.
+
+* Create a recursive function that takes a grid.
+
+* Check for any unassigned location. 
+  - If present then assigns a number from 1 to 9.
+  - Check if assigning the number to current index makes the grid unsafe or not. 
+  - If safe then recursively call the function for all safe cases from 0 to 9.
+  - If any recursive call returns true, end the loop and return true. If no
+    recursive call returns true then return false.
+
+* If there is no unassigned location then return true.
+----------------------------------------
+
+
+#-----------------
+def print_grid(arr):
+    for i in range(9):
+        for j in range(9):
+            print (arr[i][j], end = " "),
+        print ()
+#-----------------
+A Utility Function to print the Grid
+
+
+#-----------------
+def find_empty_location(arr, l):
+    for row in range(9):
+        for col in range(9):
+            if (arr[row][col]== 0):
+                l[0]= row
+                l[1]= col
+                return True
+    return False
+#-----------------
+Searching the grid to find an entry that is still unassigned. If found, the reference parameters row, col will be set the location that is unassigned, and true is returned. If no unassigned entries remains, false is returned.  'l' is a list variable that has been passed from the solve_sudoku function to keep track of incrementation of Rows and Columns
+
+
+#-----------------
+def used_in_row(arr, row, num):
+    for i in range(9):
+        if (arr[row][i] == num):
+            return True
+    return False
+#-----------------
+Returns a boolean which indicates whether any assigned entry in the specified row matches the given number.
+
+
+#-----------------
+def used_in_col(arr, col, num):
+    for i in range(9):
+        if (arr[i][col] == num):
+            return True
+    return False
+#-----------------
+Returns a boolean which indicates whether any assigned entry in the specified column matches the given number.
+
+
+#-----------------
+def used_in_box(arr, row, col, num):
+    for i in range(3):
+        for j in range(3):
+            if(arr[i + row][j + col] == num):
+                return True
+    return False
+#-----------------
+Returns a boolean which indicates whether any assigned entry within the specified 3x3 box matches the given number
+
+
+#-----------------
+def check_location_is_safe(arr, row, col, num):
+#-----------------
+Checks whether it will be legal to assign num to the given row and col, returns a boolean which indicates whether it will be legal to assign num to the given row, col location.
+
+
+#-----------------
+    return (not used_in_row(arr, row, num) and
+           (not used_in_col(arr, col, num) and
+           (not used_in_box(arr, row - row % 3, 
+                           col - col % 3, num))))
+#-----------------
+Check if 'num' is not already placed in current row, column or box
+
+
+#-----------------
+def solve_sudoku(arr):
+#-----------------
+Takes a partially filled-in grid and attempts to assign values to all unassigned locations in such a way to meet the requirements for Sudoku solution (non-duplication across rows, columns, and boxes)
+
+
+#-----------------
+    l =[0, 0]
+#-----------------
+'l' is a list variable that keeps the record of row and col in find_empty_location Function    
+
+
+#-----------------
+    if (not find_empty_location(arr, l)):
+        return True
+#-----------------
+When find_empty_location is False, meaning no empty cell, then if-statement body return True, which makes solve_sudoku True (completed)
+
+
+#-----------------
+    row = l[0]
+    col = l[1]
+#-----------------
+Assigning list values to row and col coordinate, that we got from the above Function 
+
+
+#-----------------
+    for num in range(1, 10):
+#-----------------
+consider digits 1 to 9
+
+
+#-----------------
+        if (check_location_is_safe(arr, row, col, num)):
+#-----------------
+if looks promising
+
+
+#-----------------
+            arr[row][col] = num
+#-----------------
+make "tentative assignment"
+
+
+#-----------------
+            if (solve_sudoku(arr)):
+                return True
+#----------------- 
+This is where solve_sudoku recursive begins. 
+
+
+#-----------------
+            arr[row][col] = 0
+#-----------------
+failure, unmake & try again
+
+
+#-----------------
+    return False
+#-----------------
+this triggered backtracking 
+
+
+----------------------------------------
+Footnotes:
+
+The main confusion in this program is the recursive aspect of solve_sudoku.  Function appeared as arg in if-statement is act as a triggering process of that function.
+
+lets name this current running of solve_sudoku, solve_sudoku-first;
+the flow got to
+        if (check_location_is_safe(arr, row, col, num)):
+check that the "num" about to be assign in
+            arr[row][col] = num
+is good for the time being.
+
+            if (solve_sudoku(arr)):
+triggered an occurence of solve_sudoku func (lets name this, solve_sudoku-first-1),
+when the flow got inside
+    for num in range(1, 10):
+the program validate "num" with
+        if (check_location_is_safe(arr, row, col, num)):
+but none of "num" is legitimate, so the flow go on processing to
+    return False
+which ended solve_sudoku-first-1
+
+now the flow jump back to solve_sudoku-first, which go on processing
+            arr[row][col] = 0
+then for-loop processing the next "num"
+
+this is how recursive work for solve_sudoku func in this senario; the flow is going to keep open up solve_sudoku, make "tentative assignment" of num, then on the next solve_sudoku process if it failed
+        if (check_location_is_safe(arr, row, col, num)):
+then current solve_sudoku
+    return False
+causing jump back to up to the first occurence of solve_sudoku
+
+
+
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+#
+#
+# Sudoku using Bit Masks
+#
+#
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+in solver3.py (it's not there because the posting is identical to approach #1)
+
+----------------------------------------
+Processing flow:
+
+* Create 3 arrays of size N (one for rows, columns, and boxes).
+
+* The boxes are indexed from 0 to 8. (in order to find the box index of an element
+  we use the following formula: row / 3 * 3 + column / 3).
+
+* Map the initial values of the grid first.
+
+* Each time we add/remove an element to/from the grid set the bit to 1/0 to the
+  corresponding bitmasks.
+
+
+----------------------------------------
+Footnotes:
+
+####    This is exact copy of first approach, perhaps a posting mistake.    ####
+
+
+
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+#
+#
+# Sudoku using Cross-Hatching with backtracking (error as is)
+#
+#
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+in solver4.py
+
+----------------------------------------
+Processing flow:
+
+* Build a graph with pending elements mapped to row and column coordinates where they
+  can be fitted in the original matrix.
+
+* Pick the elements from the graph sorted by fewer remaining elements to be filled.
+
+* Recursively fill the elements using a graph into the matrix. Backtrack once an
+  unsafe position is discovered.
+
+
+#-----------------
+pos = {}
+#-----------------
+Position of the input elements in the arr
+pos = {element: [[position 1], [position 2]]}
+
+
+#-----------------
+rem = {}
+#-----------------
+Count of the remaining number of the elements
+rem = {element: pending count}
+
+
+#-----------------
+graph = {}
+#-----------------
+Graph defining tentative positions of the elements to be filled
+graph = {
+         key: {
+               row1: [columns],
+               row2: [columns]
+         }
+}
+
+
+#-----------------
+
+#-----------------
+
+
+
+#-----------------
+
+#-----------------
+
+
+
+#-----------------
+
+#-----------------
+
+
+
+#-----------------
+
+#-----------------
+
+
+
+#-----------------
+
+#-----------------
+
+
+
+#-----------------
+
+#-----------------
+
+
+
+#-----------------
+
+#-----------------
+
+
+
+#-----------------
+
+#-----------------
+
+
+
+#-----------------
+
+#-----------------
+
+
+
+#-----------------
+
+#-----------------
+
+
+
+#-----------------
+
+#-----------------
+
+
+
+#-----------------
+
+#-----------------
+
+
+
+#-----------------
+
+#-----------------
+
+
+
+----------------------------------------
+Footnotes:
+
+* As is, getting fault:
+Traceback (most recent call last):
+  File "c:\Users\condr\Documents\sudoku\solver3.py", line 156, in <module>
+    fill_matrix(0, key_s, 0, list(graph[key_s[0]].keys()))
+  File "c:\Users\condr\Documents\sudoku\solver3.py", line 79, in fill_matrix
+    for c in graph[keys[k]][rows[r]]:
+                            ~~~~^^^
+IndexError: list index out of range
+
+
+
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+#
+#
+# asdf
+#
+#
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#-----------------
+
+#-----------------
+
+
+
+#-----------------
+
+#-----------------
+
+
+
+#-----------------
+
+#-----------------
+
+
+
+#-----------------
+
+#-----------------
+
+
+
+#-----------------
+
+#-----------------
+
+
+
+#-----------------
+
+#-----------------
+
+
+
+#-----------------
+
+#-----------------
+
+
+
+#-----------------
+
+#-----------------
+
+
+
+#-----------------
+
+#-----------------
+
+
+
+#-----------------
+
+#-----------------
+
+
+
+#-----------------
+
+#-----------------
+
+
+
+#-----------------
+
+#-----------------
+
+
+
+#-----------------
+
+#-----------------
+
+
+
+#-----------------
+
+#-----------------
+
+
+
+#-----------------
+
+#-----------------
+
+
+
+#-----------------
+
+#-----------------
+
+
+
+
+
+
+
+
+
